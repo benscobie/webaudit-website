@@ -4,7 +4,7 @@
         <legend><?= __('Register') ?></legend>
         <?= $this->Form->input('email') ?>
         <?= $this->Form->input('password') ?>
-   </fieldset>
+	</fieldset>
 <?= $this->Form->button(__('Register')); ?>
 <?= $this->Form->end() ?>
 </div>
