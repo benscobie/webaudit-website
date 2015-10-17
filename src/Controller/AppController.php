@@ -77,6 +77,8 @@ class AppController extends Controller {
 		{
 			$this->set('_serialize', true);
 		}
+		
+		$this->set('userLoggedIn', $this->Auth->user());
 	}
 
 	public function beforeFilter(Event $event) {

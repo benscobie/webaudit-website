@@ -55,6 +55,7 @@ class UsersController extends AppController {
 				}
 				return $this->redirect($this->Auth->redirectUrl());
 			}
+			unset($this->request->data['password']);
 			$this->Flash->error(__('Invalid username or password, try again'));
 		}
 		$this->set('user', $user);
