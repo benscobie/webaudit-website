@@ -19,24 +19,22 @@ $cakeDescription = 'WebAudit';
 <!DOCTYPE html>
 <html>
 	<head>
-    <?= $this->Html->charset() ?>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>
-	<?= $this->fetch('title') . ' - ' . $cakeDescription ?>
-	</title>
-    <?= $this->Html->meta('icon') ?>
+		<?= $this->Html->charset() ?>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title><?= $this->fetch('title') . ' - ' . $cakeDescription ?></title>
+		<?= $this->Html->meta('icon') ?>
 
-    <?= $this->Html->css('bootstrap.min.css') ?>
-    <?= $this->Html->css('bootstrap-theme.css') ?>
-	<?= $this->Html->css('main.css') ?>
-	<?php //echo $this->Html->css('bootstrap-theme.min.css') ?>
-	<?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js') ?>
-	<?= $this->Html->script('//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js') ?>
+		<?= $this->Html->css('bootstrap.min.css') ?>
+		<?= $this->Html->css('bootstrap-theme.css') ?>
+		<?= $this->Html->css('main.css') ?>
+		<?php //echo $this->Html->css('bootstrap-theme.min.css') ?>
+		<?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js') ?>
+		<?= $this->Html->script('//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js') ?>
 
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
+		<?= $this->fetch('meta') ?>
+		<?= $this->fetch('css') ?>
+		<?= $this->fetch('script') ?>
 	</head>
 	<body>
 		<nav class="navbar navbar-inverse">
@@ -51,34 +49,35 @@ $cakeDescription = 'WebAudit';
 					<a class="navbar-brand" href="/">WebAudit</a>
 				</div>
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-						<ul class="nav navbar-nav">
+					<ul class="nav navbar-nav">
 							<?php
 							if ($userLoggedIn) {
 							?>
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Scan <span class="caret"></span></a>
-								<ul class="dropdown-menu">
-									<li><?= $this->Html->link('New Scan', '/scans/add'); ?></li>
-									<li><?= $this->Html->link('View Scans', '/scans/'); ?></li>
-								</ul>
-							</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Scan <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><?= $this->Html->link('New Scan', '/scans/add'); ?></li>
+								<li><?= $this->Html->link('View Scans', '/scans/'); ?></li>
+							</ul>
+						</li>
 							<?php
 							}
 							?>
-							<li><?= $this->Html->link('About', '/about'); ?></li>
-						</ul>
-						<ul class="nav navbar-nav navbar-right">
-							<?php
-							if ($userLoggedIn) {
-							?>
-							<li><?= $this->Html->link('Logout', '/users/logout'); ?></li>
-							<?php } else { ?>
-							<li><?= $this->Html->link('Register', '/users/register'); ?></li>
-							<li><?= $this->Html->link('Login', '/users/login'); ?></li>
-							<?php
-							}
-							?>
-						</ul>
+						<li><?= $this->Html->link('About', '/about'); ?></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<?php
+						if ($userLoggedIn) {
+						?>
+						<li><?= $this->Html->link('My Profile', '/users/profile'); ?></li>
+						<li><?= $this->Html->link('Logout', '/users/logout'); ?></li>
+						<?php } else { ?>
+						<li><?= $this->Html->link('Register', '/users/register'); ?></li>
+						<li><?= $this->Html->link('Login', '/users/login'); ?></li>
+						<?php
+						}
+						?>
+					</ul>
 				</div>
 			</div>
 		</nav>

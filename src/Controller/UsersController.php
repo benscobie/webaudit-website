@@ -16,12 +16,28 @@ class UsersController extends AppController {
 		$this->set('users', $this->Users->find('all'));
 	}
 
-	public function view($id) {
-		$user = $this->Users->get($id);
+	public function profile() {
+		if (!$this->Auth->user()) {
+			return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+		}
+
+		$user = $this->Users->get($this->Auth->user('id'));
+		if ($this->request->is('post')) {
+			$usersTable = TableRegistry::get('Users');
+			$usersTable->patchEntity($user, $this->request->data);
+			if ($usersTable->save($user)) {
+				$this->Flash->success('Profile updated');
+			}
+		}
+
 		$this->set(compact('user'));
 	}
 
 	public function register() {
+		if ($this->Auth->user()) {
+			return $this->redirect(['controller' => 'Users', 'action' => 'profile']);
+		}
+
 		$user = $this->Users->newEntity();
 		if ($this->request->is('post')) {
 			$user = $this->Users->patchEntity($user, $this->request->data);
@@ -42,7 +58,7 @@ class UsersController extends AppController {
 		if ($this->Auth->user()) {
 			return $this->redirect($this->Auth->redirectUrl());
 		}
-		
+
 		$user = $this->Users->newEntity();
 		if ($this->request->is('post')) {
 			$user = $this->Auth->identify();
