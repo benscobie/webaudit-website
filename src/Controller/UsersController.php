@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
+use Cake\Auth\DefaultPasswordHasher;
 
 class UsersController extends AppController {
 
@@ -22,11 +24,32 @@ class UsersController extends AppController {
 		}
 
 		$user = $this->Users->get($this->Auth->user('id'));
-		if ($this->request->is('post')) {
+		if ($this->request->is('put')) {
 			$usersTable = TableRegistry::get('Users');
-			$usersTable->patchEntity($user, $this->request->data);
-			if ($usersTable->save($user)) {
-				$this->Flash->success('Profile updated');
+
+			$verify = (new DefaultPasswordHasher)->check($this->request->data['current_password'], $user->password);
+			if ($verify) {
+				$passwordUpdate = false;
+
+				if (strlen($this->request->data['new_password']) > 0 && $this->request->data['new_password'] === $this->request->data['new_password_confirm']) {
+					$this->request->data['password'] = $this->request->data['new_password'];
+					$passwordUpdate = true;
+				}
+
+				unset($this->request->data['current_password']);
+				unset($this->request->data['new_password']);
+				unset($this->request->data['new_password_confirm']);
+
+				$usersTable->patchEntity($user, $this->request->data);
+				if ($usersTable->save($user)) {
+					if ($passwordUpdate) {
+						$this->Flash->success('Profile and password updated');
+					} else {
+						$this->Flash->success('Profile updated');
+					}
+				}
+			} else {
+				$this->Flash->error(__('Incorrect current password entered.'));
 			}
 		}
 
@@ -45,8 +68,8 @@ class UsersController extends AppController {
 				$this->Auth->setUser($user->toArray());
 				$this->Flash->success(__('The user has been saved.'));
 				return $this->redirect([
-					'controller' => 'Users',
-					'action' => 'home'
+							'controller' => 'Users',
+							'action' => 'home'
 				]);
 			}
 			$this->Flash->error(__('Unable to add the user.'));

@@ -3,16 +3,19 @@
 <?= $this->Form->create($user); ?>
     <fieldset>
     	<div class="form-group">
-			<?= $this->Form->label('password', 'Password', ['class' => 'sr-only']); ?>
-			<?= $this->Form->input('password', ['class' => 'form-control', 'placeholder' => 'Password', 'required']); ?>
+			<?= $this->Form->input('current_password', ['label' => 'Current password', 'type' => 'password', 'class' => 'form-control', 'placeholder' => 'Password', 'required', 'autofocus']); ?>
 		</div>
 		<div class="form-group">
-			<?= $this->Form->label('email', 'Email', ['class' => 'sr-only']); ?>
+			<?= $this->Form->input('name', ['class' => 'form-control', 'placeholder' => 'Name', 'required', 'autofocus']) ?>
+		</div>
+		<div class="form-group">
 			<?= $this->Form->input('email', ['class' => 'form-control', 'placeholder' => 'Email address', 'required', 'autofocus']) ?>
 		</div>
 		<div class="form-group">
-			<?= $this->Form->label('password', 'Password', ['class' => 'sr-only']); ?>
-			<?= $this->Form->input('password', ['class' => 'form-control', 'placeholder' => 'Password', 'required']); ?>
+			<?= $this->Form->input('new_password', ['label' => 'New password', 'type' => 'password', 'class' => 'form-control', 'placeholder' => 'New password']); ?>
+		</div>
+		<div class="form-group">
+			<?= $this->Form->input('new_password_confirm', ['label' => 'Re-enter new password', 'type' => 'password', 'class' => 'form-control', 'placeholder' => 'Re-enter new Password']); ?>
 		</div>
 	</fieldset>
 <?= $this->Form->button(__('Update'), ['class' => 'btn btn-lg btn-primary btn-block']); ?>
