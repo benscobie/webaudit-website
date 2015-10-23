@@ -107,5 +107,9 @@ class UsersController extends AppController {
 	public function dashboard() {
 		
 	}
+	
+	public function billing() {
+		
+	}
 
 }

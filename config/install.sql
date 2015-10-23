@@ -8,7 +8,7 @@ CREATE TABLE `scans` (
 	`finished_date` DATETIME NULL DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `fk_users` (`user_id`),
-	CONSTRAINT `fk_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+	CONSTRAINT `fk_scans_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 )
 ENGINE=InnoDB;
 
@@ -19,7 +19,7 @@ CREATE TABLE `scan_data` (
 	`value` VARCHAR(255) NULL DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `fk_scan` (`scan_id`),
-	CONSTRAINT `fk_scan` FOREIGN KEY (`scan_id`) REFERENCES `scans` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+	CONSTRAINT `fk_scan_data_scan` FOREIGN KEY (`scan_id`) REFERENCES `scans` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 )
 ENGINE=InnoDB;
 
