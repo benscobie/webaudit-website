@@ -1,3 +1,14 @@
+CREATE TABLE `payments` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`user_id` INT(10) UNSIGNED NOT NULL,
+	`method` VARCHAR(20) NOT NULL,
+	`amount` VARCHAR(20) NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `fk_payments_user` (`user_id`),
+	CONSTRAINT `fk_payments_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+)
+ENGINE=InnoDB;
+
 CREATE TABLE `scans` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`status` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
