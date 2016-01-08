@@ -20,7 +20,6 @@ use Cake\Core\Configure;
 use Cake\Network\Exception\NotFoundException;
 use Cake\View\Exception\MissingTemplateException;
 use Cake\Event\Event;
-use wadeshuler\paypalipn\IpnListener;
 
 /**
  * Static content controller
@@ -74,33 +73,5 @@ class PagesController extends AppController {
 		
 	}
 	
-	public function ipn() {
-		// https://developer.paypal.com/developer/ipnSimulator/
-		
-		$listener = new IpnListener();
-		
-		$listener->use_sandbox = true;
-		$listener->use_curl = true;
-		$listener->follow_location = false;
-		$listener->timeout = 30;
-		$listener->verify_ssl = true;
-
-		if ($verified = $listener->processIpn())
-		{
-			// Valid IPN
-			/*
-				1. Check that $_POST['payment_status'] is "Completed"
-				2. Check that $_POST['txn_id'] has not been previously processed
-				3. Check that $_POST['receiver_email'] is your Primary PayPal email
-				4. Check that $_POST['payment_amount'] and $_POST['payment_currency'] are correct
-			*/
-			
-			$transactionData = $listener->getPostData();
-			file_put_contents('ipn_success.log', print_r($transactionData, true) . PHP_EOL, LOCK_EX | FILE_APPEND);
-		} else {
-			$errors = $listener->getErrors();
-			file_put_contents('ipn_errors.log', print_r($errors, true) . PHP_EOL, LOCK_EX | FILE_APPEND);
-		}
-	}
 
 }
