@@ -323,4 +323,8 @@ return [
     'Session' => [
         'defaults' => 'php',
     ],
+    
+    'WebAudit' => [
+        'CreditPrice' => 0.10
+    ]
 ];

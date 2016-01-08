@@ -40,9 +40,41 @@ class PaymentsController extends AppController {
 				4. Check that $_POST['payment_amount'] and $_POST['payment_currency'] are correct
 			*/
             
-            $this->request->data['payment_status'];
-            $this->request->data['txn_id'];
-            $this->request->data['payment_amount'];
+            $paymentsTable = TableRegistry::get('Payments');
+            $payment = $paymentsTable->newEntity();
+            
+            if ( $this->request->data['payment_status'] == "Completed" ) {
+                $payment->gross_amount = $this->request->data['payment_status'];
+            }
+			
+            $payment->provider = 'PayPal';
+            $payment->transaction_id = $this->request->data['txn_id'];
+            $payment->transaction_type = $this->request->data['payment_type'];
+            $payment->gross_amount = $this->request->data['mc_gross'];
+            $payment->tax_amount = $this->request->data['tax'];
+            $payment->fee_amount = $this->request->data['mc_fee'];
+            $payment->received_amount = $payment->gross_amount - $payment->fee_amount;
+            $payment->currency = $payment->mc_currency;
+			$payment->quantity = floor( $payment->gross_amount / Configure::read('WebAudit.CreditPrice') );
+            
+            if ( $this->request->data['payment_status'] == "Completed" ) {
+                $payment->status = 1;
+            } else {
+				$payment->status = 0;
+			}
+			
+			$payments = $paymentsTable->find()
+			->where(['transaction_id' => $payment->transaction_id])
+			->andWhere(['provider' => 'PayPal']);
+		
+            if ($paymentsTable->save($payment)) {
+                $id = $payment->id;
+				// Add credits to users account
+				
+				if (!empty($payments)) {
+				
+				}
+            }
 			
 			$transactionData = $listener->getPostData();
 			file_put_contents('ipn_success.log', print_r($transactionData, true) . PHP_EOL, LOCK_EX | FILE_APPEND);
