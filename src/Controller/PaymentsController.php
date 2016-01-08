@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
-use Cake\Auth\DefaultPasswordHasher;
 use wadeshuler\paypalipn\IpnListener;
 
 class PaymentsController extends AppController {
@@ -40,6 +39,10 @@ class PaymentsController extends AppController {
 				3. Check that $_POST['receiver_email'] is your Primary PayPal email
 				4. Check that $_POST['payment_amount'] and $_POST['payment_currency'] are correct
 			*/
+            
+            $this->request->data['payment_status'];
+            $this->request->data['txn_id'];
+            $this->request->data['payment_amount'];
 			
 			$transactionData = $listener->getPostData();
 			file_put_contents('ipn_success.log', print_r($transactionData, true) . PHP_EOL, LOCK_EX | FILE_APPEND);
