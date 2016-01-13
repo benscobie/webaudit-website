@@ -70,10 +70,6 @@ class PaymentsController extends AppController {
 				$payment->status = 0;
 			}
 
-			$duplicatePayments = $paymentsTable->find('all')
-					->where(['transaction_id' => $payment->transaction_id])
-					->andWhere(['provider' => 'PayPal']);
-
 			if ($paymentsTable->save($payment)) {
 				$id = $payment->id;
 
@@ -81,6 +77,10 @@ class PaymentsController extends AppController {
 					$usersTable = TableRegistry::get('Users');
 					$userID = $transactionData['custom'];
 					$user = $usersTable->get($userID);
+					
+					$duplicatePayments = $paymentsTable->find('all')
+						->where(['transaction_id' => $payment->transaction_id])
+						->andWhere(['provider' => 'PayPal']);
 
 					if (empty($duplicatePayments)) {
 						$user->addCredits($payment->quantity);
