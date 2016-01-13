@@ -37,45 +37,37 @@ class PaymentsController extends AppController {
 
 		if ($verified = $listener->processIpn()) {
 			$transactionData = $listener->getPostData();
-			file_put_contents('ipn_success.log', print_r($transactionData, true) . PHP_EOL, LOCK_EX | FILE_APPEND);
-			
-			// Valid IPN
-			/*
-			  1. Check that $_POST['payment_status'] is "Completed"
-			  2. Check that $_POST['txn_id'] has not been previously processed
-			  3. Check that $_POST['receiver_email'] is your Primary PayPal email
-			  4. Check that $_POST['payment_amount'] and $_POST['payment_currency'] are correct
-			 */
+			file_put_contents('../logs/ipn_success.log', print_r($transactionData, true) . PHP_EOL, LOCK_EX | FILE_APPEND);
 
 			$paymentsTable = TableRegistry::get('Payments');
 			$payment = $paymentsTable->newEntity();
 
-			if ($transactionData['payment_status'] == "Completed") {
-				$payment->gross_amount = $transactionData['payment_status'];
+			if ($this->request->data['payment_status'] == "Completed") {
+				$payment->gross_amount = $this->request->data['payment_status'];
 			}
 
 			$payment->provider = 'PayPal';
-			$payment->transaction_id = $transactionData['txn_id'];
-			$payment->transaction_type = $transactionData['payment_type'];
-			$payment->gross_amount = $transactionData['mc_gross'];
-			$payment->tax_amount = $transactionData['tax'];
-			$payment->fee_amount = $transactionData['mc_fee'];
-			$payment->currency = $transactionData['mc_currency'];
+			$payment->transaction_id = $this->request->data['txn_id'];
+			$payment->transaction_type = $this->request->data['payment_type'];
+			$payment->gross_amount = $this->request->data['mc_gross'];
+			$payment->tax_amount = $this->request->data['tax'];
+			$payment->fee_amount = $this->request->data['mc_fee'];
+			$payment->currency = $this->request->data['mc_currency'];
 			$payment->received_amount = $payment->gross_amount - $payment->fee_amount;
 			$payment->quantity = floor($payment->gross_amount / Configure::read('WebAudit.CreditPrice'));
 
-			if ($transactionData['payment_status'] == "Completed") {
+			if ($this->request->data['payment_status'] == "Completed") {
 				$payment->status = 1;
 			} else {
 				$payment->status = 0;
 			}
-
+			
 			if ($paymentsTable->save($payment)) {
 				$id = $payment->id;
 
-				if (!empty($transactionData['custom'])) {
+				if (!empty($this->request->data['custom'])) {
 					$usersTable = TableRegistry::get('Users');
-					$userID = $transactionData['custom'];
+					$userID = $this->request->data['custom'];
 					$user = $usersTable->get($userID);
 					
 					$duplicatePayments = $paymentsTable->find('all')
@@ -93,7 +85,7 @@ class PaymentsController extends AppController {
 			}
 		} else {
 			$errors = $listener->getErrors();
-			file_put_contents('ipn_errors.log', print_r($errors, true) . PHP_EOL, LOCK_EX | FILE_APPEND);
+			file_put_contents('../logs/ipn_errors.log', print_r($errors, true) . PHP_EOL, LOCK_EX | FILE_APPEND);
 		}
 	}
 
