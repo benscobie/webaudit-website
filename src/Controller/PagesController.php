@@ -34,7 +34,7 @@ class PagesController extends AppController {
 		parent::beforeFilter($event);
 		$this->Auth->allow(['home', 'about']);
 	}
-	
+
 	/**
 	 * Displays a view
 	 *
@@ -68,10 +68,9 @@ class PagesController extends AppController {
 			throw new NotFoundException();
 		}
 	}
-	
+
 	public function about() {
 		
 	}
-	
 
 }

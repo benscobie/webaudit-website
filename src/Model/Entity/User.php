@@ -18,5 +18,27 @@ class User extends Entity {
 			return (new DefaultPasswordHasher)->hash($password);
 		}
 	}
+	
+	public function addCredits($amount) {
+		if (empty($this->id)) {
+			return false;
+		}
+		
+		$validator = new Validator();
+		$validator
+				->notEmpty('credit_amount')
+				->add('credit_amount', 'naturalNumber', [
+					'rule' => ['naturalNumber', false]
+				]);
+				
+		$errors = $validator->errors(['credit_amount' => $amount]);
+		
+		if (empty($errors)) {
+			$expression = new QueryExpression('credit_amount = credit_amount + ' . $amount);
+			return $this->updateAll([$expression]);
+		}
+		
+		return false;
+	}
 
 }
