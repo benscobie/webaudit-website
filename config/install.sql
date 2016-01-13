@@ -57,5 +57,5 @@ CREATE TABLE `users` (
 )
 ENGINE=InnoDB;
 
-INSERT INTO `users` (`id`, `email`, `password`, `first_name`, `last_name`, `role`, `created`) VALUES
-	(1, 'admin@benscobie.com', '$2y$10$F0LnW1sU9.EdbgnFhbpOUeQ0JV1FL7NmmgYrFiGS6JakgzdKQG1NW', NULL, NULL, 0, '2015-10-17 15:12:35');
+INSERT INTO `users` (`id`, `email`, `password`, `first_name`, `last_name`, `credit_amount`, `role`, `created`) VALUES
+	(1, 'admin@benscobie.com', '$2y$10$F0LnW1sU9.EdbgnFhbpOUeQ0JV1FL7NmmgYrFiGS6JakgzdKQG1NW', NULL, NULL, 0, 0, '2015-10-17 15:12:35');

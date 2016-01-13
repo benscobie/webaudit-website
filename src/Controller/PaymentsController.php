@@ -62,32 +62,26 @@ class PaymentsController extends AppController {
 				$payment->status = 0;
 			}
 			
-			if (!empty($this->request->data['custom'])) {
-				$usersTable = TableRegistry::get('Users');
-				$userID = $this->request->data['custom'];
-				$user = $usersTable->get($userID);
-				if (!empty($user)) {
-					$payment->user_id = $user->id;
-					
-					if ($paymentsTable->save($payment)) {
-						$id = $payment->id;
-						$duplicatePayments = $paymentsTable->find('all')
-							->where(['transaction_id' => $payment->transaction_id])
-							->andWhere(['provider' => 'PayPal']);
+			$duplicatePayments = $paymentsTable->find('all')
+					->where(['transaction_id' => $payment->transaction_id])
+					->andWhere(['provider' => 'PayPal']);
 
-						if (empty($duplicatePayments)) {
-							$user->addCredits($payment->quantity);
-						} else {
-							// Inform the user?
-						}
-					} else {
-						// log failed save
+			if (empty($duplicatePayments)) {
+				if (!empty($this->request->data['custom'])) {
+					$usersTable = TableRegistry::get('Users');
+					$userID = $this->request->data['custom'];
+					$user = $usersTable->get($userID);
+					if (!empty($user)) {
+						$payment->user_id = $user->id;
 					}
-				} else {
-					// Somebody paid but it was an invalid user id
 				}
-			} else {
-				// Somebody paid, and we don't know who they are
+				
+				if ($paymentsTable->save($payment)) {
+					$id = $payment->id;
+					if (!empty($payment->user_id)){
+						$user->addCredits($payment->quantity);
+					}
+				}
 			}
 		} else {
 			$errors = $listener->getErrors();
