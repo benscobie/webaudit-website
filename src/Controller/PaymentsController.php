@@ -79,7 +79,8 @@ class PaymentsController extends AppController {
 				if ($paymentsTable->save($payment)) {
 					$id = $payment->id;
 					if (!empty($payment->user_id)){
-						$user->addCredits($payment->quantity);
+						$user->credit_amount += $payment->quantity;
+						$usersTable->save($user);
 					}
 				}
 			}

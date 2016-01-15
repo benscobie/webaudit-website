@@ -4,8 +4,6 @@ namespace App\Model\Entity;
 
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\ORM\Entity;
-use Cake\Validation\Validator;
-use Cake\Database\Expression\QueryExpression;
 
 class User extends Entity {
 
@@ -19,16 +17,6 @@ class User extends Entity {
 		if (strlen($password) > 0) {
 			return (new DefaultPasswordHasher)->hash($password);
 		}
-	}
-	
-	public function addCredits($amount) {
-		if (empty($this->id)) {
-			return false;
-		}
-		
-		$this->credit_amount += $amount;
-		
-		return $this->save();
 	}
 
 }
