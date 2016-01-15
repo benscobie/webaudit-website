@@ -28,8 +28,11 @@ class UsersTable extends Table {
 							'maxLength' => [
 								'rule' => ['maxLength', 160],
 								'message' => 'Password can be a maximum of 160 characters long',
-							]
-						]);
+							]])
+						->add('credit_amount', [
+							'naturalNumber' => [
+								'rule' => ['naturalNumber', false],
+							]]);
 	}
 
 }

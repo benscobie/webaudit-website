@@ -26,21 +26,9 @@ class User extends Entity {
 			return false;
 		}
 		
-		$validator = new Validator();
-		$validator
-				->notEmpty('credit_amount')
-				->add('credit_amount', 'naturalNumber', [
-					'rule' => ['naturalNumber', false]
-				]);
-				
-		$errors = $validator->errors(['credit_amount' => $amount]);
+		$this->credit_amount += $amount;
 		
-		if (empty($errors)) {
-			$expression = new QueryExpression('credit_amount = credit_amount + ' . $amount);
-			return $this->updateAll([$expression]);
-		}
-		
-		return false;
+		return $this->save();
 	}
 
 }
