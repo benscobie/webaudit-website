@@ -109,7 +109,12 @@ class UsersController extends AppController {
 	}
 
 	public function billing() {
+
+		$user = $this->Users->get($this->Auth->user('id'), [
+			'contain' => ['Payments']
+		]);
 		
+		$this->set('payments', $user['payments']);
 	}
 
 }
