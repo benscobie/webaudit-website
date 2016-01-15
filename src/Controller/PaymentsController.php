@@ -66,7 +66,7 @@ class PaymentsController extends AppController {
 					->where(['transaction_id' => $payment->transaction_id])
 					->andWhere(['provider' => 'PayPal']);
 
-			if (empty($duplicatePayments)) {
+			if ($duplicatePayments->isEmpty()) {
 				if (!empty($this->request->data['custom'])) {
 					$usersTable = TableRegistry::get('Users');
 					$userID = $this->request->data['custom'];
