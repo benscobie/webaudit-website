@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 
-class ScansController extends AppController {
+class WebsitesController extends AppController {
 
 	public function beforeFilter(Event $event) {
 		parent::beforeFilter($event);
@@ -13,12 +13,15 @@ class ScansController extends AppController {
 	}
 
 	public function index() {
-		$this->set('scans', $this->Scans->find('all'));
+		$website = $this->Websites->newEntity();
+		
+		$this->set(compact('website'));
+		$this->set('websites', $this->Websites->find('all'));
 	}
 
 	public function view($id) {
-		$scan = $this->Scans->get($id);
-		$this->set(compact('scan'));
+		$website = $this->Websites->get($id);
+		$this->set(compact('website'));
 	}
 
 	public function add() {

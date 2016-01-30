@@ -35,3 +35,11 @@
 	border: 0;
 	border-radius: 0;
 }
+
+.input-group-btn select {
+	border-color: #ccc;
+	margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}

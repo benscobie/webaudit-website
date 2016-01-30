@@ -28,9 +28,9 @@ $cakeDescription = 'WebAudit';
 		<?= $this->Html->css('bootstrap.min.css') ?>
 		<?= $this->Html->css('bootstrap-theme.css') ?>
 		<?= $this->Html->css('main.css') ?>
-		<?php //echo $this->Html->css('bootstrap-theme.min.css') ?>
-		<?= $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js') ?>
-		<?= $this->Html->script('//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js') ?>
+		<?= $this->Html->script('jquery-1.12.0.min.js') ?>
+		<?= $this->Html->script('bootstrap.min.js') ?>
+		<?= $this->Html->script('main.js') ?>
 
 		<?= $this->fetch('meta') ?>
 		<?= $this->fetch('css') ?>
@@ -50,9 +50,9 @@ $cakeDescription = 'WebAudit';
 				</div>
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-							<?php
-							if ($userLoggedIn) {
-							?>
+						<?php
+						if ($userLoggedIn) {
+						?>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Scan <span class="caret"></span></a>
 							<ul class="dropdown-menu">
@@ -60,9 +60,10 @@ $cakeDescription = 'WebAudit';
 								<li><?= $this->Html->link('View Scans', '/scans/'); ?></li>
 							</ul>
 						</li>
-							<?php
-							}
-							?>
+						<li><?= $this->Html->link('Websites', '/websites/'); ?></li>
+						<?php
+						}
+						?>
 						<li><?= $this->Html->link('About', '/about'); ?></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
