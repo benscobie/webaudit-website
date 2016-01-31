@@ -12,7 +12,7 @@
 				</span>
 				<input type="text" class="form-control">
 				<span class="input-group-btn">
-					<button class="btn btn-default" type="button">Verify</button>
+					<button class="btn btn-default" type="button">Add & Verify</button>
 				</span>
 			</div>
 		</div>
@@ -32,7 +32,7 @@
 		foreach ($websites as $website) { ?>
 			<tr>
 				<th scope="row"><?= $website['protocol'] . '://' . $website['url'] ?></th>
-				<th scope="row"><?= $website['status'] ?></th>
+				<th scope="row"><?= (!$website['status']) ? "Unverified" : "Verified"  ?></th>
 			</tr>
 		<?php
 		}

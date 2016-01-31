@@ -57,5 +57,18 @@ CREATE TABLE `users` (
 )
 ENGINE=InnoDB;
 
+CREATE TABLE `websites` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`protocol` VARCHAR(5) NOT NULL,
+	`url` VARCHAR(255) NOT NULL,
+	`verified` BIT(1) NOT NULL DEFAULT b'0',
+	`user_id` INT(10) UNSIGNED NOT NULL,
+	`created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	INDEX `fk_users` (`user_id`),
+	CONSTRAINT `fk_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+)
+ENGINE=InnoDB;
+
 INSERT INTO `users` (`id`, `email`, `password`, `first_name`, `last_name`, `credit_amount`, `role`, `created`) VALUES
 	(1, 'admin@benscobie.com', '$2y$10$F0LnW1sU9.EdbgnFhbpOUeQ0JV1FL7NmmgYrFiGS6JakgzdKQG1NW', NULL, NULL, 0, 0, '2015-10-17 15:12:35');
