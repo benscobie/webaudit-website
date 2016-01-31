@@ -5,14 +5,14 @@
 			<label>Add new website</label>
 			<div class="input-group">
 				<span class="input-group-btn">
-					<select class="btn">
-						<option>HTTP</option>
-						<option>HTTPS</option>
-					</select>
+					<?php
+					$options = ['http' => 'HTTP', 'https' => 'HTTPS'];
+					echo $this->Form->select('protocol', $options, ['class' => 'btn']);
+					?>
 				</span>
-				<input type="text" class="form-control">
+				<?= $this->Form->text('domain', ['class' => 'form-control']); ?>
 				<span class="input-group-btn">
-					<button class="btn btn-default" type="button">Add & Verify</button>
+					<?= $this->Form->button('Add & Verify', ['type' => 'submit', 'class' => 'btn btn-default']); ?>
 				</span>
 			</div>
 		</div>
@@ -31,7 +31,7 @@
 		<?php
 		foreach ($websites as $website) { ?>
 			<tr>
-				<th scope="row"><?= $website['protocol'] . '://' . $website['url'] ?></th>
+				<th scope="row"><?= $website['protocol'] . '://' . $website['domain'] ?></th>
 				<th scope="row"><?= (!$website['status']) ? "Unverified" : "Verified"  ?></th>
 			</tr>
 		<?php

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
 
 class WebsitesController extends AppController {
 
@@ -15,9 +16,13 @@ class WebsitesController extends AppController {
 	public function index() {
 		$website = $this->Websites->newEntity();
 		
-		if ($this->request->is('put')) {
+		if ($this->request->is('post')) {
 			$websitesTable = TableRegistry::get('Websites');
-			
+			$this->request->data['user_id'] = $this->Auth->user('id');
+			$websitesTable->patchEntity($website, $this->request->data);
+			if ($websitesTable->save($website)) {
+				// Redirect to verify page
+			}
 		}
 		
 		$this->set(compact('website'));
@@ -32,9 +37,4 @@ class WebsitesController extends AppController {
 		$website = $this->Websites->get($id);
 		$this->set(compact('website'));
 	}
-
-	public function add() {
-		
-	}
-
 }

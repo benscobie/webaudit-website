@@ -9,7 +9,7 @@ class WebsitesTable extends Table {
 
 	public function validationDefault(Validator $validator) {
 
-		$validator->add('url', 'custom', [
+		$validator->add('domain', 'custom', [
 			'rule' => function ($value, $context) {
 				// http://stackoverflow.com/a/4694816
 				return (preg_match("/^([a-z\d](-*[a-z\d])*)(\.([a-z\d](-*[a-z\d])*))*$/i", $value) //valid chars check
