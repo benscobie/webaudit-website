@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b3a86b5f288a7e86fd19b013123b025f",
-    "content-hash": "fb8bcd173f56bb1918883658e76fde77",
+    "hash": "a4c32c5e7f44f46aaa6327fc38f9e96b",
+    "content-hash": "efd81a5a1d2abc50253a93d2095bbb34",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -393,6 +393,54 @@
                 "php mobile detect"
             ],
             "time": "2015-12-24 16:37:50"
+        },
+        {
+            "name": "paragonie/random_compat",
+            "version": "1.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paragonie/random_compat.git",
+                "reference": "e6f80ab77885151908d0ec743689ca700886e8b0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/e6f80ab77885151908d0ec743689ca700886e8b0",
+                "reference": "e6f80ab77885151908d0ec743689ca700886e8b0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*|5.*"
+            },
+            "suggest": {
+                "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "lib/random.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paragon Initiative Enterprises",
+                    "email": "security@paragonie.com",
+                    "homepage": "https://paragonie.com"
+                }
+            ],
+            "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
+            "keywords": [
+                "csprng",
+                "pseudorandom",
+                "random"
+            ],
+            "time": "2016-01-29 16:19:52"
         },
         {
             "name": "psr/log",

@@ -20,5 +20,11 @@ class WebsitesTable extends Table {
 
 		return $validator;
 	}
+	
+	public function beforeSave($event, $entity, $options)  {
+		if (empty($entity->verification_content)) {
+			$entity->generateVerificationContent();
+		}
+	}
 
 }

@@ -11,5 +11,9 @@ class Website extends Entity {
 		'*' => true,
 		'id' => false
 	];
+	
+	public function generateVerificationContent() {
+		$this->verification_content = random_bytes(40);
+	}
 
 }
