@@ -13,7 +13,7 @@ class Website extends Entity {
 	];
 	
 	public function generateVerificationContent() {
-		$this->verification_content = random_bytes(40);
+		$this->verification_content = sha1(random_bytes4(0));
 	}
 
 }
