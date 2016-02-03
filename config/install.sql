@@ -62,6 +62,7 @@ CREATE TABLE `websites` (
 	`protocol` VARCHAR(5) NOT NULL,
 	`hostname` VARCHAR(64) NOT NULL,
 	`verified` BIT(1) NOT NULL DEFAULT b'0',
+	`verification_content` VARCHAR(40) NULL DEFAULT NULL,
 	`user_id` INT(10) UNSIGNED NOT NULL,
 	`created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`),
