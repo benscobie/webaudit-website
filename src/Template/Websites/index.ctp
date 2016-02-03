@@ -10,7 +10,7 @@
 					echo $this->Form->select('protocol', $options, ['class' => 'btn']);
 					?>
 				</span>
-				<?= $this->Form->text('domain', ['class' => 'form-control']); ?>
+				<?= $this->Form->text('hostname', ['class' => 'form-control']); ?>
 				<span class="input-group-btn">
 					<?= $this->Form->button('Add & Verify', ['type' => 'submit', 'class' => 'btn btn-default']); ?>
 				</span>
@@ -31,7 +31,7 @@
 		<?php
 		foreach ($websites as $website) { ?>
 			<tr>
-				<th scope="row"><?= $website['protocol'] . '://' . $website['domain'] ?></th>
+				<th scope="row"><?= $website['protocol'] . '://' . $website['hostname'] ?></th>
 				<th scope="row"><?= (!$website['status']) ? "Unverified" : "Verified"  ?></th>
 			</tr>
 		<?php
