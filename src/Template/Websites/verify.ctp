@@ -30,4 +30,6 @@
 	<p>
 		To stay verified, do not remove the HTML file after validation.
 	</p>
+	<?= $this->Html->link('Verify', [ 'controller' => 'Websites', 'action' => 'verify', $website->id, 'verify'], ['class' => 'btn btn-success'])  ?>
+	<?= $this->Html->link('Cancel', [ 'controller' => 'Websites', 'action' => 'index'], ['class' => 'btn btn-default'])  ?>
 </div>

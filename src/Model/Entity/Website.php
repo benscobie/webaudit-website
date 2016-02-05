@@ -3,6 +3,7 @@
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\Core\Configure;
 
 class Website extends Entity {
 
@@ -31,6 +32,42 @@ class Website extends Entity {
 	
 	public function getVerificationFileUploadUrl() {
 		return ($this->getFullUrl() . "/" . $this->getVerificationFileUploadFileName()	);
+	}
+	
+	public function verifyOwnership() {
+		$this->verified = 0;
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $this->getVerificationFileUploadUrl());
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$useragent = Configure::read('WebAudit.UserAgent');
+		curl_setopt($ch, CURLOPT_USERAGENT, $useragent);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_HEADER, 1);
+		curl_setopt($ch, CURLOPT_VERBOSE, 1);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
+		$response = curl_exec($ch);
+		
+		$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		if ($httpCode == 200) {
+			$body = substr($response, $header_size);
+
+			if (strcmp($body, $this->verification_content) === 0) {
+				
+				$this->verified = 1;
+			}
+		}
+		
+		curl_close($ch);
+		
+		if (!$this->verified) {
+			if (checkdnsrr($this->getVerificationTXTRecord() . "." . $this->hostname,"TXT")) {
+				
+			}
+		}
+		
+		return $this->verified;
 	}
 
 }
