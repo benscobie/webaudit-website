@@ -21,7 +21,7 @@ class WebsitesController extends AppController {
 			$this->request->data['user_id'] = $this->Auth->user('id');
 			$websitesTable->patchEntity($website, $this->request->data);
 			if ($websitesTable->save($website)) {
-				// Redirect to verify page
+				return $this->redirect(['controller' => 'Websites', 'action' => 'verify', $website->id]);
 			}
 		}
 		
@@ -30,7 +30,16 @@ class WebsitesController extends AppController {
 	}
 	
 	public function verify($id) {
+		$website = $this->Websites->get($id);
 		
+		if (!empty($website)) {
+			if ($website->user_id != $this->Auth->user('id')) {
+				$this->Flash->error(__('Unauthorised.'));
+				return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
+			}
+		}
+		
+		$this->set(compact('website'));
 	}
 	
 	public function view($id) {

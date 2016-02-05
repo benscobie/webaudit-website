@@ -25,6 +25,7 @@
 			<tr>
 				<th>Website URL</th>
 				<th>Status</th>
+				<th>&nbsp;</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -32,7 +33,8 @@
 		foreach ($websites as $website) { ?>
 			<tr>
 				<th scope="row"><?= $website['protocol'] . '://' . $website['hostname'] ?></th>
-				<th scope="row"><?= (!$website['status']) ? "Unverified" : "Verified"  ?></th>
+				<th scope="row"><?= (!$website['verified']) ? "Unverified" : "Verified"  ?></th>
+				<th scope="row"><?php echo (!$website['verified']) ? $this->Html->link('Verify', ['controller' => 'Websites', 'action' => 'verify', $website->id]) : ""  ?></th>
 			</tr>
 		<?php
 		}
