@@ -19,15 +19,14 @@ ENGINE=InnoDB;
 
 CREATE TABLE `scans` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`website_id` INT(10) UNSIGNED NOT NULL,
 	`status` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
-	`url` VARCHAR(255) NOT NULL,
-	`user_id` INT(10) UNSIGNED NOT NULL,
 	`created_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`started_date` TIMESTAMP NULL DEFAULT NULL,
 	`finished_date` TIMESTAMP NULL DEFAULT NULL,
 	PRIMARY KEY (`id`),
-	INDEX `fk_users` (`user_id`),
-	CONSTRAINT `fk_scans_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+	INDEX `fk_scans_website` (`website_id`),
+	CONSTRAINT `fk_scans_website` FOREIGN KEY (`website_id`) REFERENCES `websites` (`id`)
 )
 ENGINE=InnoDB;
 
@@ -67,7 +66,7 @@ CREATE TABLE `websites` (
 	`created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`),
 	INDEX `fk_users` (`user_id`),
-	CONSTRAINT `fk_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+	CONSTRAINT `fk_websites_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 )
 ENGINE=InnoDB;
 
