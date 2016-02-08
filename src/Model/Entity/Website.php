@@ -17,12 +17,12 @@ class Website extends Entity {
 		$this->verification_content = sha1(random_bytes(40));
 	}
 	
-	public function getVerificationTXTRecord() {
-		return ('webaudit-site-verification=' . $this->verification_content);
+	public function getVerificationFileUploadFileName() {
+		return ("webaudit_" . $this->getShortVerificationString() . ".html");
 	}
 	
-	public function getVerificationFileUploadFileName() {
-		return ("webaudit_" . substr(md5($this->verification_content), 0, 16) . ".html");
+	public function getShortVerificationString() {
+		return (substr(md5($this->verification_content), 0, 16));
 	}
 	
 	public function getFullUrl($trailingSlash = FALSE) {
@@ -52,21 +52,12 @@ class Website extends Entity {
 		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		if ($httpCode == 200) {
 			$body = substr($response, $header_size);
-
 			if (strcmp($body, $this->verification_content) === 0) {
-				
 				$this->verified = 1;
 			}
 		}
 		
 		curl_close($ch);
-		
-		if (!$this->verified) {
-			if (checkdnsrr($this->getVerificationTXTRecord() . "." . $this->hostname,"TXT")) {
-				
-			}
-		}
-		
 		return $this->verified;
 	}
 
