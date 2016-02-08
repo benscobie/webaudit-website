@@ -16,11 +16,7 @@ class PaymentsController extends AppController {
 	}
 
 	public function index() {
-		$payments = $this->Payments->find('all');
-		$userID = $this->Auth->user('id');
-
-		$this->set('payments', $payments);
-		$this->set('userID', $userID);
+		
 	}
 
 	public function paypalIpn() {

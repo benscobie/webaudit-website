@@ -324,7 +324,8 @@ return [
         'defaults' => 'php',
     ],
     
-    'WebAudit' => [
-        'CreditPrice' => 0.10
-    ]
+	'WebAudit' => [
+		'CreditPrice' => 0.10,
+		'CreditCurrency' => 'GBP'
+	]
 ];

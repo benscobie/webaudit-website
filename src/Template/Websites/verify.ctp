@@ -14,7 +14,7 @@
 		<li><strong>Click</strong> Verify below</li>
 	</ol>
 	<p>
-		To stay verified, do not remove the HTML file after validation.
+		Do not remove the HTML file after initial verification as verification will be performed before every scan starts.
 	</p>
 	<?= $this->Html->link('Verify', [ 'controller' => 'Websites', 'action' => 'verify', $website->id, 'verify'], ['class' => 'btn btn-success'])  ?>
 	<?= $this->Html->link('Cancel', [ 'controller' => 'Websites', 'action' => 'index'], ['class' => 'btn btn-default'])  ?>

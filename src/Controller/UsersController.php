@@ -6,6 +6,7 @@ use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Auth\DefaultPasswordHasher;
+use Cake\Core\Configure;
 
 class UsersController extends AppController {
 
@@ -109,11 +110,15 @@ class UsersController extends AppController {
 	}
 
 	public function billing() {
-
-		$user = $this->Users->get($this->Auth->user('id'), [
+		$userID = $this->Auth->user('id');
+		$user = $this->Users->get($userID, [
 			'contain' => ['Payments']
 		]);
 		
+		$creditPrice = number_format(Configure::read('WebAudit.CreditPrice'), 2);
+		$creditCurrency = Configure::read('WebAudit.CreditCurrency');
+
+		$this->set(compact('userID', 'creditPrice', 'creditCurrency'));
 		$this->set('payments', $user['payments']);
 	}
 
