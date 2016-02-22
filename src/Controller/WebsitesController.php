@@ -25,8 +25,9 @@ class WebsitesController extends AppController {
 			}
 		}
 		
-		$this->set(compact('website'));
-		$this->set('websites', $this->Websites->find('all'));
+		$websites = $this->Websites->find()->where(['user_id' => $this->Auth->user('id')]);
+		
+		$this->set(compact('website', 'websites'));
 	}
 	
 	public function verify($id, $action = NULL) {
@@ -56,6 +57,21 @@ class WebsitesController extends AppController {
 		}
 		
 		$this->set(compact('website'));
+	}
+	
+	public function scan($id) {
+		$website = $this->Websites->get($id);
+		
+		if (!empty($website)) {
+			$websitesTable = TableRegistry::get('Websites');
+			
+			if ($website->user_id != $this->Auth->user('id')) {
+				$this->Flash->error(__('Unauthorised.'));
+				return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
+			}
+			
+			
+		}
 	}
 	
 	public function view($id) {

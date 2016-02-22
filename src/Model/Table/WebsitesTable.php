@@ -7,6 +7,12 @@ use Cake\Validation\Validator;
 
 class WebsitesTable extends Table {
 
+	public function initialize(array $config) {
+		$this->hasMany('Scans', [
+			'className' => 'Scans',
+		]);
+	}
+	
 	public function validationDefault(Validator $validator) {
 
 		$validator->add('hostname', 'custom', [

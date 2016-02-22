@@ -7,12 +7,17 @@ use Cake\Validation\Validator;
 
 class UsersTable extends Table {
 
-	public function initialize(array $config)
-    {
-        $this->hasMany('Payments', [
+	public function initialize(array $config) {
+		$this->hasMany('Payments', [
+			'className' => 'Payments',
 			'foreignKey' => 'user_id',
-        ]);
-    }
+		]);
+		
+		$this->hasMany('Websites', [
+			'className' => 'Websites',
+			'foreignKey' => 'user_id',
+		]);
+	}
 	
 	public function validationDefault(Validator $validator) {
 		return $validator->notEmpty('email', 'An email is required')

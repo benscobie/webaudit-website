@@ -60,5 +60,14 @@ class Website extends Entity {
 		curl_close($ch);
 		return $this->verified;
 	}
+	
+	public function scanInProgress() {
+		return (!empty($this->getActiveScan()));
+	}
+	
+	public function getActiveScan() {
+		//var_dump($this);
+		//exit;
+	}
 
 }

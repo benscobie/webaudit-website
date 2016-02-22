@@ -7,4 +7,10 @@ use Cake\Validation\Validator;
 
 class PaymentsTable extends Table {
     
+		public function initialize(array $config) {
+		$this->belongsTo('Users', [
+			'className' => 'Users',
+		]);
+	}
+	
 }
