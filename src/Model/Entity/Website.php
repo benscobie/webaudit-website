@@ -4,6 +4,7 @@ namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
 use Cake\Core\Configure;
+use Cake\Utility\Security;
 
 class Website extends Entity {
 
@@ -14,7 +15,7 @@ class Website extends Entity {
 	];
 	
 	public function generateVerificationContent() {
-		$this->verification_content = sha1(random_bytes(40));
+		$this->verification_content = hash('sha512', Security::randomBytes(16), false);
 	}
 	
 	public function getVerificationFileUploadFileName() {
