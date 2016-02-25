@@ -35,12 +35,12 @@
 				<th scope="row"><?= $website['protocol'] . '://' . $website['hostname'] ?></th>
 				<th scope="row"><?= (!$website['verified']) ? "Unverified" : "Verified"  ?></th>
 				<th scope="row"><?php
-				if(!$website['verified']) {
-					$this->Html->link('Verify', ['controller' => 'Websites', 'action' => 'verify', $website->id]);
+				if (!$website['verified']) {
+					echo $this->Html->link('Verify', ['controller' => 'Websites', 'action' => 'verify', $website->id]);
 				} elseif (!$website->scanInProgress()) {
-					$this->Html->link('Start Scan', ['controller' => 'Websites', 'action' => 'scan', $website->id]);
+					echo $this->Html->link('Start Scan', ['controller' => 'Websites', 'action' => 'scan', $website->id]);
 				} else {
-					$this->Html->link('View Scan', ['controller' => 'Websites', 'action' => 'scan', $website->id]);
+					echo $this->Html->link('View Scan', ['controller' => 'Websites', 'action' => 'scan', $website->id]);
 				}
 				?></th>
 			</tr>
