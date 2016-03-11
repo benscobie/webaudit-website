@@ -66,7 +66,7 @@ class WebsitesController extends AppController {
 			if ($website->user_id != $this->Auth->user('id')) {
 				$this->Flash->error(__('Unauthorised.'));
 				return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
-			} elseif ($website->verified != true) {
+			} elseif ($website->verifyOwnership() != true) {
 				$this->Flash->error(__('The website needs to be verified before a scan can be scheduled.'));
 				return $this->redirect(['controller' => 'Websites', 'action' => 'verify', $website->id]);
 			}
