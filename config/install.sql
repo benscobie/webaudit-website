@@ -19,10 +19,18 @@ CREATE TABLE `payments` (
 )
 ENGINE=InnoDB;
 
+CREATE TABLE sessions (
+  id varchar(40) NOT NULL default '',
+  data text,
+  expires INT(11) NOT NULL,
+  PRIMARY KEY  (id)
+)
+ENGINE=InnoDB;
+
 CREATE TABLE `scans` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`website_id` INT(10) UNSIGNED NOT NULL,
-	`status` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
+	`status` TINYINT(2) UNSIGNED NOT NULL DEFAULT '0',
 	`created_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`started_date` DATETIME NULL DEFAULT NULL,
 	`finished_date` DATETIME NULL DEFAULT NULL,
