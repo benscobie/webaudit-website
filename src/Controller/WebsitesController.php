@@ -61,11 +61,14 @@ class WebsitesController extends AppController {
 	
 	public function scan($id) {
 		$website = $this->Websites->get($id);
-		
+	
 		if (!empty($website)) {
 			if ($website->user_id != $this->Auth->user('id')) {
 				$this->Flash->error(__('Unauthorised.'));
 				return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
+			} elseif ($website->verified != true) {
+				$this->Flash->error(__('The website needs to be verified before a scan can be scheduled.'));
+				return $this->redirect(['controller' => 'Websites', 'action' => 'verify', $website->id]);
 			}
 			
 			$scansTable = TableRegistry::get('Scans');
