@@ -30,5 +30,15 @@ if (!empty($scans)) {
 	?>
 	</tbody>
 </table>
+
+<nav>
+	<ul class="pagination">
+	<?php
+	echo $this->Paginator->prev('<span aria-hidden="true">&laquo;</span>', array('escape'=>false,'tag' => 'li'), null, array('escape'=>false, 'tag' => 'li','class' => 'disabled','disabledTag' => 'a'));
+	echo $this->Paginator->numbers(['first' => 1]);
+	echo $this->Paginator->next('<span aria-hidden="true">&raquo;</span>', array('escape'=>false, 'tag' => 'li','currentClass' => 'disabled'), null, array('escape'=>false,'tag' => 'li','class' => 'disabled','disabledTag' => 'a'));
+	?>
+	</ul>
+</nav>
 <?php } ?>
 </div>

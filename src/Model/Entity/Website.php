@@ -63,12 +63,7 @@ class Website extends Entity {
 	}
 	
 	public function scanInProgress() {
-		return (!empty($this->getActiveScan()));
-	}
-	
-	public function getActiveScan() {
-		//var_dump($this);
-		//exit;
+		return (!empty(Scan::getActiveScanForWebsite($this->id)));
 	}
 
 }

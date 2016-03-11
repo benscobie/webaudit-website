@@ -25,7 +25,9 @@ class WebsitesController extends AppController {
 			}
 		}
 		
-		$websites = $this->Websites->find()->where(['user_id' => $this->Auth->user('id')]);
+		$websites = $this->Websites->find()
+				->where(['user_id' => $this->Auth->user('id')])
+				->order(['Websites.hostname' => 'ASC']);
 		
 		$this->set(compact('website', 'websites'));
 	}

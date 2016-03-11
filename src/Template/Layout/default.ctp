@@ -53,14 +53,8 @@ $cakeDescription = 'WebAudit';
 						<?php
 						if ($userLoggedIn) {
 						?>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Scan <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><?= $this->Html->link('New Scan', '/scans/add'); ?></li>
-								<li><?= $this->Html->link('View Scans', '/scans/'); ?></li>
-							</ul>
-						</li>
 						<li><?= $this->Html->link('Websites', '/websites/'); ?></li>
+						<li><?= $this->Html->link('Scans', '/scans/'); ?></li>
 						<?php
 						}
 						?>
