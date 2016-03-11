@@ -11,5 +11,17 @@ class Scan extends Entity {
 		'*' => true,
 		'id' => false
 	];
+	
+	public function getStatusMessage() {
+		$statusMap = [
+			0 => "Queued",
+			1 => "In Progress",
+			2 => "Completed",
+			3 => "Cancelled",
+			4 => "Error"
+		];
+		
+		return $statusMap[$this->status];
+	}
 
 }

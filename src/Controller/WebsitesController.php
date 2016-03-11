@@ -63,8 +63,6 @@ class WebsitesController extends AppController {
 		$website = $this->Websites->get($id);
 		
 		if (!empty($website)) {
-			$websitesTable = TableRegistry::get('Websites');
-			
 			if ($website->user_id != $this->Auth->user('id')) {
 				$this->Flash->error(__('Unauthorised.'));
 				return $this->redirect(['controller' => 'Websites', 'action' => 'index']);

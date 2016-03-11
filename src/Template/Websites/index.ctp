@@ -32,7 +32,7 @@
 		<?php
 		foreach ($websites as $website) { ?>
 			<tr>
-				<th scope="row"><?= $website['protocol'] . '://' . $website['hostname'] ?></th>
+				<th scope="row"><?= $website->getFullUrl(); ?></th>
 				<th scope="row"><?= (!$website['verified']) ? "Unverified" : "Verified"  ?></th>
 				<th scope="row"><?php
 				if (!$website['verified']) {

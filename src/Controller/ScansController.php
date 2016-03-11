@@ -13,7 +13,7 @@ class ScansController extends AppController {
 	}
 
 	public function index() {
-		$this->set('scans', $this->Scans->find('all'));
+		$this->set('scans', $this->Scans->find('all', ['contain' => ['Websites']]));
 	}
 
 	public function view($id) {
