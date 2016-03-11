@@ -70,7 +70,13 @@ class WebsitesController extends AppController {
 				return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
 			}
 			
+			$scansTable = TableRegistry::get('Scans');
+			$scan = $scansTable->newEntity();
+			$scan->website = $website;
 			
+			if ($scansTable->save($scan)) {
+				return $this->redirect(['controller' => 'Scans', 'action' => 'view', $scan->id]);
+			}
 		}
 	}
 	
