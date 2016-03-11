@@ -8,7 +8,7 @@ use Cake\Event\Event;
 class ScansController extends AppController {
 
 	public $paginate = [
-		'limit' => 5,
+		'limit' => 10,
 		'order' => [
 			'Scans.id' => 'DESC'
 		],

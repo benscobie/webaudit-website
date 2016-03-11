@@ -7,7 +7,7 @@ use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 
 class WebsitesController extends AppController {
-
+	
 	public function beforeFilter(Event $event) {
 		parent::beforeFilter($event);
 		$this->Auth->deny();
@@ -25,9 +25,17 @@ class WebsitesController extends AppController {
 			}
 		}
 		
-		$websites = $this->Websites->find()
-				->where(['user_id' => $this->Auth->user('id')])
-				->order(['Websites.hostname' => 'ASC']);
+		$this->paginate = [
+			'limit' => 10,
+			'conditions' => [
+				'Websites.user_id' => $this->Auth->user('id')
+			],
+			'order' => [
+				'Websites.hostname' => 'ASC',
+			]
+		];
+		
+		$websites = $this->paginate($this->Websites);
 		
 		$this->set(compact('website', 'websites'));
 	}

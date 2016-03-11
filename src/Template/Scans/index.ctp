@@ -6,9 +6,9 @@ if (!empty($scans)) {
 	<thead>
 		<tr>
 			<th>Website URL</th>
-			<th>Requested Date</th>
-			<th>Started Date</th>
-			<th>Finished Date</th>
+			<th><?= $this->Paginator->sort('created_date', 'Requested Date') ?></th>
+			<th><?= $this->Paginator->sort('started_date', 'Started Date') ?></th>
+			<th><?= $this->Paginator->sort('finished_date', 'Finished Date') ?></th>
 			<th>Scan Status</th>
 			<th>&nbsp;</th>
 		</tr>
@@ -30,7 +30,9 @@ if (!empty($scans)) {
 	?>
 	</tbody>
 </table>
-
+<?php
+if ($this->Paginator->hasPage(2)) {
+?>
 <nav>
 	<ul class="pagination">
 	<?php
@@ -40,5 +42,7 @@ if (!empty($scans)) {
 	?>
 	</ul>
 </nav>
-<?php } ?>
+<?php
+}
+} ?>
 </div>
