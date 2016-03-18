@@ -52,15 +52,12 @@ class WebsitesController extends AppController {
 			}
 			
 			if ($action == 'verify') {
-				$website->verifyOwnership();
-				if (!$website->verified) {
+				$verified = $website->verifyOwnership();
+				if (!$verified) {
 					$this->Flash->error(__('Error verifying ownership.'));
 				} else {
-					$websitesTable = TableRegistry::get('Websites');
-					if ($websitesTable->save($website)) {
-						$this->Flash->success('Ownership verified');
-						return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
-					}
+					$this->Flash->success('Ownership verified');
+					return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
 				}
 				
 			}

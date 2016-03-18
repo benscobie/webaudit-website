@@ -36,7 +36,7 @@ class Website extends Entity {
 	}
 	
 	public function verifyOwnership() {
-		$this->verified = 0;
+		$verified = 0;
 		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $this->getVerificationFileUploadUrl());
@@ -46,20 +46,32 @@ class Website extends Entity {
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_HEADER, 1);
 		curl_setopt($ch, CURLOPT_VERBOSE, 1);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
+		curl_setopt($ch, CURLOPT_MAXREDIRS, 2);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		$response = curl_exec($ch);
-		
-		$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		if ($httpCode == 200) {
-			$body = substr($response, $header_size);
-			if (strcmp($body, $this->verification_content) === 0) {
-				$this->verified = 1;
+		if ($response !== FALSE) {
+			$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+			$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+			if ($httpCode == 200) {
+				$body = substr($response, $header_size);
+				if (strcmp($body, $this->verification_content) === 0) {
+					$verified = 1;
+				}
 			}
 		}
-		
 		curl_close($ch);
-		return $this->verified;
+		
+		if ($this->verified == $verified) {
+			return $verified;
+		} else {
+			$this->verified = $verified;
+			$websitesTable = TableRegistry::get('Websites');
+			if ($websitesTable->save($this)) {
+				return $verified;
+			} else {
+				return false;
+			}
+		}
 	}
 	
 	public function scanInProgress() {
