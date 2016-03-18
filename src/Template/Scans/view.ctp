@@ -21,7 +21,8 @@
 				}
 			?>
 		</div>
-		<div class="col-md-8">
+		<div id="scan-test-result-container" class="col-md-8">
+			
 		</div>
 	</div>
 
@@ -39,6 +40,7 @@
 </div>
 </script>
 <script>
+bindScanTestRows();
 initScanPageUpdater(<?= $scan['id']; ?>);
 
 function initScanPageUpdater(scanID) {
@@ -48,6 +50,28 @@ function initScanPageUpdater(scanID) {
 	if (parseInt($('.scans').data('scan-status')) !== 2) {
 		updateScanProgress(scanID, template);
 	}
+}
+
+function bindScanTestRows() {
+	$('.scan-test-row').click( function() {
+		if (!$(this).hasClass('disabled')) {
+			var testID = $(this).data('test-id');
+			getTestResult(testID);
+		}
+	});
+}
+
+function getTestResult(testID) {
+	$.get('/tests/view/' + testID)
+	.done(function(data) {
+		$('#scan-test-result-container').html(data);
+	})
+	.fail(function() {
+
+	})
+	.always(function() {
+
+	});
 }
 
 function updateScanProgress(scanID, template) {
@@ -92,6 +116,8 @@ function updateScanProgress(scanID, template) {
 				}
 			}
 		});
+		
+		bindScanTestRows();
 
 		if (newStatus !== 2) {
 			setTimeout(function () {

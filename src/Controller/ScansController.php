@@ -4,7 +4,8 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
-use \Cake\Network\Exception;
+use Cake\Network\Exception\NotFoundException;
+use Cake\Network\Exception\UnauthorizedException;
 
 class ScansController extends AppController {
 
@@ -46,16 +47,21 @@ class ScansController extends AppController {
 	}
 	
 	public function getprogress($id) {
-		$scan = $this->Scans->get($id, [
-			'contain' => ['Tests', 'Websites']
-		]);
-		
-		if ($scan['website']['user_id'] != $this->Auth->user('id')) {
-			throw new UnauthorizedException(__('Unauthorised'));
+		if ($this->request->is('ajax')) {
+			$this->response->disableCache();
+			$scan = $this->Scans->get($id, [
+				'contain' => ['Tests', 'Websites']
+			]);
+
+			if ($scan['website']['user_id'] != $this->Auth->user('id')) {
+				throw new UnauthorizedException(__('Unauthorised'));
+			}
+
+			$this->set(compact('scan'));
+			$this->set('_serialize', ['scan']);
+		} else {
+			throw new NotFoundException();
 		}
-		
-		$this->set(compact('scan'));
-		$this->set('_serialize', ['scan']);
 	}
 
 }

@@ -4,7 +4,8 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
-use Cake\ORM\TableRegistry;
+use Cake\Network\Exception\NotFoundException;
+use Cake\Network\Exception\UnauthorizedException;
 
 class TestsController extends AppController {
 	
@@ -14,7 +15,23 @@ class TestsController extends AppController {
 	}
 	
 	public function view($id) {
-		$test = $this->Tests->get($id);
-		$this->set(compact('test'));
+		if ($this->request->is('ajax')) {
+			$this->response->disableCache();
+			$this->autoRender = false;
+
+			$test = $this->Tests->get($id, [
+				'contain' => ['Scans' => ['Websites']]
+			]);
+
+			if ($test['scan']['website']['user_id'] != $this->Auth->user('id')) {
+				throw new UnauthorizedException(__('Unauthorised'));
+			}
+
+			$this->render('/Layout/Tests/' . strtolower($test['name']), false);
+
+			$this->set(compact('test'));
+		} else {
+			throw new NotFoundException();
+		}
 	}
 }
