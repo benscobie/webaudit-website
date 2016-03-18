@@ -8,3 +8,7 @@ $(document).ready(function() {
 		$('#creditPurchasePayPalForm').find('input[name="quantity"]').val(credit_amount);
 	});
 });
+
+function initScanPageUpdater() {
+	
+}
