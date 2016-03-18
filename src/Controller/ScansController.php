@@ -32,8 +32,14 @@ class ScansController extends AppController {
 
 	public function view($id) {
 		$scan = $this->Scans->get($id, [
-			'contain' => ['Tests']
+			'contain' => ['Tests', 'Websites']
 		]);
+		
+		if ($scan['website']['user_id'] != $this->Auth->user('id')) {
+			$this->Flash->error(__('Unauthorised.'));
+			return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
+		}
+		
 		$this->set(compact('scan'));
 	}
 
