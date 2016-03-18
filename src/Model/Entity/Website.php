@@ -5,6 +5,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 use Cake\Core\Configure;
 use Cake\Utility\Security;
+use Cake\ORM\TableRegistry;
 
 class Website extends Entity {
 
@@ -36,7 +37,7 @@ class Website extends Entity {
 	}
 	
 	public function verifyOwnership() {
-		$verified = 0;
+		$verified = false;
 		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $this->getVerificationFileUploadUrl());
@@ -55,7 +56,7 @@ class Website extends Entity {
 			if ($httpCode == 200) {
 				$body = substr($response, $header_size);
 				if (strcmp($body, $this->verification_content) === 0) {
-					$verified = 1;
+					$verified = true;
 				}
 			}
 		}
