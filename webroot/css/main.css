@@ -82,3 +82,7 @@
 .scan-test-row .fa-pull-right {
 	line-height: 30px;
 }
+
+.test-in-progress {
+	display: none;
+}
