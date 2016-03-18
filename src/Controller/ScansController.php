@@ -31,7 +31,9 @@ class ScansController extends AppController {
 	}
 
 	public function view($id) {
-		$scan = $this->Scans->get($id);
+		$scan = $this->Scans->get($id, [
+			'contain' => ['Tests']
+		]);
 		$this->set(compact('scan'));
 	}
 
