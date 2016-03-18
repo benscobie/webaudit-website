@@ -43,3 +43,42 @@
     padding-top: 7px;
     padding-bottom: 7px;
 }
+
+
+#scan-test-row-header {
+	font-weight: bold;
+	background-color: #1559D1;
+	color: white;
+	height: 50px;
+	line-height: 30px;
+	padding: 10px;
+    border-bottom: 1px solid;
+    border-color: #D1D1D1;
+}
+
+.scan-test-row {
+	height: 50px;
+	line-height: 30px;
+	background-color: #EFEFEF;
+	padding: 10px;
+    border-bottom: 1px solid;
+    border-color: #D1D1D1;
+}
+
+.scan-test-row.disabled {
+	color: #777;
+    background-color: #eee;
+}
+
+.scan-test-row.disabled:hover {
+    cursor: not-allowed;
+}
+
+.scan-test-row:hover {
+	background-color: #F7F7E2;
+	cursor: pointer;
+}
+
+.scan-test-row .fa-pull-right {
+	line-height: 30px;
+}

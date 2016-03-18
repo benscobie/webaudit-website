@@ -27,6 +27,7 @@ $cakeDescription = 'WebAudit';
 
 		<?= $this->Html->css('bootstrap.min.css') ?>
 		<?= $this->Html->css('bootstrap-theme.css') ?>
+		<?= $this->Html->css('font-awesome.min.css') ?>
 		<?= $this->Html->css('main.css') ?>
 		<?= $this->Html->script('jquery-1.12.0.min.js') ?>
 		<?= $this->Html->script('bootstrap.min.js') ?>
