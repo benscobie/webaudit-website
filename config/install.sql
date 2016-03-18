@@ -19,10 +19,18 @@ CREATE TABLE `payments` (
 )
 ENGINE=InnoDB;
 
+CREATE TABLE sessions (
+  id varchar(40) NOT NULL default '',
+  data text,
+  expires INT(11) NOT NULL,
+  PRIMARY KEY  (id)
+)
+ENGINE=InnoDB;
+
 CREATE TABLE `scans` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`website_id` INT(10) UNSIGNED NOT NULL,
-	`status` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
+	`status` TINYINT(2) UNSIGNED NOT NULL DEFAULT '0',
 	`created_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`started_date` DATETIME NULL DEFAULT NULL,
 	`finished_date` DATETIME NULL DEFAULT NULL,
@@ -41,19 +49,19 @@ CREATE TABLE `tests` (
 	`finished_date` DATETIME NULL DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `fk_tests_scan` (`scan_id`),
-	CONSTRAINT `fk_tests_scan` FOREIGN KEY (`scan_id`) REFERENCES `scans` (`id`)
+	CONSTRAINT `fk_tests_scan` FOREIGN KEY (`scan_id`) REFERENCES `scans` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 )
 ENGINE=InnoDB;
 
 CREATE TABLE `test_data` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`test_id` INT(10) UNSIGNED NOT NULL,
-	`data_type` INT(10) UNSIGNED NOT NULL,
+	`data_type` INT(10) UNSIGNED NULL DEFAULT NULL,
 	`key` VARCHAR(255) NOT NULL,
 	`value` VARCHAR(255) NULL DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `fk_test_data_test` (`test_id`),
-	CONSTRAINT `fk_test_data_test` FOREIGN KEY (`test_id`) REFERENCES `tests` (`id`)
+	CONSTRAINT `fk_test_data_test` FOREIGN KEY (`test_id`) REFERENCES `tests` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 )
 ENGINE=InnoDB;
 
