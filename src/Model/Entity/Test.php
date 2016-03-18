@@ -12,14 +12,17 @@ class Test extends Entity {
 		'*' => true,
 		'id' => false
 	];
+	
+	protected $_virtual = ['friendly_name'];
 
 	const TEST_MAP = [
 		"SSL" => "SSL/TLS",
 		"HEADERS" => "HTTP Headers"
 	];
-
-	public static function getFriendlyName($name) {
-		return (self::TEST_MAP[$name]);
-	}
+	
+	protected function _getFriendlyName()
+    {
+        return (self::TEST_MAP[$this->name]);
+    }
 	
 }

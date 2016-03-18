@@ -14,7 +14,7 @@
 					<div class="scan-test-row <?= implode($extraClasses, " "); ?>" data-test-id="<?= $test['id']; ?>" data-test-status=<?= $test['status']; ?>>
 						<div class="row">
 							<div class="col-xs-8">
-								<?= $this->Test->getFriendlyName($test['name']); ?>
+								<?= $test['friendly_name']; ?>
 							</div>
 							<div class="col-xs-4">
 								<i class="fa fa-circle-o-notch fa-spin fa-pull-right <?= ($test['status'] == 1 ) ? '' : 'test-in-progress' ?>"></i>
