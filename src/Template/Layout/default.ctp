@@ -31,6 +31,7 @@ $cakeDescription = 'WebAudit';
 		<?= $this->Html->css('main.css') ?>
 		<?= $this->Html->script('jquery-1.12.0.min.js') ?>
 		<?= $this->Html->script('bootstrap.min.js') ?>
+		<?= $this->Html->script('handlebars.min.js') ?>
 		<?= $this->Html->script('main.js') ?>
 
 		<?= $this->fetch('meta') ?>
