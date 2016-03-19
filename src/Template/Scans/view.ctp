@@ -62,18 +62,23 @@ function bindScanTestRows() {
 	$(document).off('click', '.scan-test-row').on('click', '.scan-test-row',function(e) {
 		if (!$(this).hasClass('disabled')) {
 			var testID = $(this).data('test-id');
-			getTestResult(testID);
+			var that = $(this);
+			getTestResult(testID, function() {
+				$('.scan-test-row').removeClass('active');
+				that.addClass('active');
+			});
 		}
 	});
 }
 
 var ajaxCount = 0;
-function getTestResult(testID) {
+function getTestResult(testID, callback) {
 	var seqNumber = ++ajaxCount;
 	$.get('/tests/view/' + testID)
 	.done(function(data) {
 		if (seqNumber === ajaxCount) {
 			$('#scan-test-result-container').html(data);
+			callback();
 		}
 	})
 	.fail(function() {

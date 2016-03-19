@@ -79,6 +79,10 @@
 	cursor: pointer;
 }
 
+.scan-test-row.active {
+	background-color: #FEFFD5;
+}
+
 .scan-test-row .fa-pull-right {
 	line-height: 30px;
 }
