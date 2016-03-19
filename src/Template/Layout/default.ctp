@@ -87,10 +87,7 @@ $cakeDescription = 'WebAudit';
 		</nav>
 		<div class="container">
 			<?= $this->Flash->render() ?>
-			<div class="starter-template">
-				<h1><?= $this->fetch('title'); ?></h1>
-				<?= $this->fetch('content') ?>
-			</div>
+			<?= $this->fetch('content') ?>
 		</div>
 	</body>
 </html>

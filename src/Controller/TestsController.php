@@ -20,16 +20,15 @@ class TestsController extends AppController {
 			$this->autoRender = false;
 
 			$test = $this->Tests->get($id, [
-				'contain' => ['Scans' => ['Websites']]
+				'contain' => ['Scans' => ['Websites'], 'TestData']
 			]);
 
 			if ($test['scan']['website']['user_id'] != $this->Auth->user('id')) {
 				throw new UnauthorizedException(__('Unauthorised'));
 			}
-
-			$this->render('/Layout/Tests/' . strtolower($test['name']), false);
-
 			$this->set(compact('test'));
+			
+			$this->render('/Layout/Tests/' . strtolower($test['name']), false);
 		} else {
 			throw new NotFoundException();
 		}
