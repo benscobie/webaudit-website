@@ -58,7 +58,7 @@ CREATE TABLE `test_data` (
 	`test_id` INT(10) UNSIGNED NOT NULL,
 	`data_type` INT(10) UNSIGNED NULL DEFAULT NULL,
 	`key` VARCHAR(255) NOT NULL,
-	`value` VARCHAR(255) NULL DEFAULT NULL,
+	`value` VARCHAR(10000) NULL DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `fk_test_data_test` (`test_id`),
 	CONSTRAINT `fk_test_data_test` FOREIGN KEY (`test_id`) REFERENCES `tests` (`id`) ON UPDATE CASCADE ON DELETE CASCADE

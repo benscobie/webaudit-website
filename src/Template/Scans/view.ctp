@@ -59,7 +59,7 @@ function initScanPageUpdater(scanID) {
 }
 
 function bindScanTestRows() {
-	$('.scan-test-row').click( function() {
+	$(document).off('click', '.scan-test-row').on('click', '.scan-test-row',function(e) {
 		if (!$(this).hasClass('disabled')) {
 			var testID = $(this).data('test-id');
 			getTestResult(testID);

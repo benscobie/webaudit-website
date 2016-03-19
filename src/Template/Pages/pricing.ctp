@@ -1,4 +1,4 @@
-<?php $this->assign('title', 'Priing'); ?>
+<?php $this->assign('title', 'Pricing'); ?>
 <div>
 	
 </div>

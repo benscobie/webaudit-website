@@ -28,7 +28,7 @@ class TestsController extends AppController {
 			}
 			$this->set(compact('test'));
 			
-			$this->render('/Layout/Tests/' . strtolower($test['name']), false);
+			$this->render('/Tests/' . strtolower($test['name']), false);
 		} else {
 			throw new NotFoundException();
 		}

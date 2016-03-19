@@ -86,3 +86,7 @@
 .test-in-progress {
 	display: none;
 }
+
+body {
+	overflow-y: scroll;
+}
