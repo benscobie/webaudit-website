@@ -1,6 +1,17 @@
 <?php
+use \App\Model\Entity\Scan;
+
 $this->assign('title', 'Scan report');
 ?>
+<div class="page-header">
+	<h1><?= $this->fetch('title'); ?> <?php
+	if($scan['status'] == Scan::STATUS_QUEUED) { ?>
+		<small class="scan-status">Position in queue: <span><?= $queuePosition; ?></span></small>
+		<?php
+	}
+	?>
+	</h1>
+</div>
 <div class="scans" data-scan-status="<?= $scan['status']; ?>">
 	<div class="row">
 		<div id="scan-test-container" class="col-md-4">
@@ -55,7 +66,11 @@ $this->assign('title', 'Scan report');
 </script>
 <script>
 bindScanTestRows();
-initScanPageUpdater(<?= $scan['id']; ?>);
+setTimeout(function () {
+	initScanPageUpdater(<?= $scan['id']; ?>);
+}, 1000);
+
+
 var $testResultContainer = $('#scan-test-result-container');
 var $helpModal = $('#help-modal');
 var $modalBody = $helpModal.find('.modal-body');
@@ -138,9 +153,39 @@ function getTestResult(testID, callback) {
 function updateScanProgress(scanID, template) {
 	$.getJSON('/scans/getprogress/' + scanID)
 	.done(function(data) {
+		var oldStatus = parseInt($('.scans').data('scan-status'));
 		var newStatus = data.scan.status;
 		$('.scans').data('status', newStatus);
-
+		
+		if (newStatus === <?= Scan::STATUS_QUEUED; ?>) {
+			var newPositionInQueue = data.scan.position_in_queue;
+			if (oldStatus === <?= Scan::STATUS_QUEUED; ?>) {
+				var oldQueuePosition = parseInt($('.scan-status span').text());
+				if (oldQueuePosition !== newPositionInQueue) {
+					$('.scan-status span').fadeOut(function() {
+						$(this).html(newPositionInQueue).fadeIn();
+					});
+				}
+			} else {
+				$('.scan-status').fadeOut(function() {
+					$(this).html("Position in queue: <span>" + newPositionInQueue + "</span>").fadeIn();
+				});
+			}
+		}
+		
+		if (oldStatus != <?= Scan::STATUS_IN_PROGRESS; ?> && newStatus == <?= Scan::STATUS_IN_PROGRESS; ?>) {
+			$('.scan-status').fadeOut(function() {
+				$(this).text('Scan in progress').fadeIn();
+			});
+		}
+		
+		if (oldStatus != <?= Scan::STATUS_COMPLETED; ?> && newStatus == <?= Scan::STATUS_COMPLETED; ?>) {
+			$('.scan-status').fadeOut(function() {
+				$(this).html('');
+			});
+		}
+	
+		
 		$.each(data.scan.tests, function(key, test) {
 			var testID = test.id;
 			var testRow = $('.scan-test-row[data-test-id=' + testID + ']');
@@ -187,7 +232,9 @@ function updateScanProgress(scanID, template) {
 		}
 	})
 	.fail(function() {
-
+		setTimeout(function () {
+			updateScanProgress(scanID, template);
+		}, 1000);
 	})
 	.always(function() {
 

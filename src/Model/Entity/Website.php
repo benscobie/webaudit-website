@@ -78,5 +78,5 @@ class Website extends Entity {
 	public function scanInProgress() {
 		return (!empty(Scan::getActiveScanForWebsite($this->id)));
 	}
-
+	
 }

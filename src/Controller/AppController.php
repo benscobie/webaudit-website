@@ -28,6 +28,8 @@ use Cake\Event\Event;
  * @link http://book.cakephp.org/3.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+	
+	public $renderLayoutTitle = true;
 
 	/**
 	 * Initialization hook method.
@@ -79,6 +81,7 @@ class AppController extends Controller {
 			$this->set('_serialize', true);
 		}
 
+		$this->set('renderLayoutTitle', $this->renderLayoutTitle);
 		$this->set('userLoggedIn', $this->Auth->user());
 	}
 

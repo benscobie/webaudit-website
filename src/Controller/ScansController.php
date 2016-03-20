@@ -34,6 +34,8 @@ class ScansController extends AppController {
 	}
 
 	public function view($id) {
+		$this->renderLayoutTitle = false;
+		
 		$scan = $this->Scans->get($id, [
 			'contain' => ['Tests', 'Websites']
 		]);
@@ -42,6 +44,8 @@ class ScansController extends AppController {
 			$this->Flash->error(__('Unauthorised.'));
 			return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
 		}
+		
+		$this->set('queuePosition', $scan->queuePosition());
 		
 		$this->set(compact('scan'));
 	}
@@ -56,6 +60,9 @@ class ScansController extends AppController {
 			if ($scan['website']['user_id'] != $this->Auth->user('id')) {
 				throw new UnauthorizedException(__('Unauthorised'));
 			}
+			
+			unset($scan['website']);
+			$scan['position_in_queue'] = $scan->queuePosition();
 
 			$this->set(compact('scan'));
 			$this->set('_serialize', ['scan']);

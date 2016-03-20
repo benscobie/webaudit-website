@@ -31,6 +31,28 @@ class Scan extends Entity {
 		return (self::STATUS_MAP[$this->status]);
 	}
 	
+	public function queuePosition() {
+		if ($this->status == Scan::STATUS_QUEUED) {
+			$scansTable = TableRegistry::get('Scans');
+			$scansQueued = $scansTable->find('all', [
+				'order' => ['Scans.created_date' => 'ASC'],
+				'conditions' => ['Scans.status =' => Scan::STATUS_QUEUED]
+			]);
+			
+			$queuePos = 0;
+			foreach ($scansQueued as $scan) {
+				$queuePos++;
+				if ($scan['id'] == $this->id) {
+					return $queuePos;
+				}
+			}
+			
+			return 0;
+		} else {
+			return 0;
+		}
+	}
+	
 	public static function getActiveScanForWebsite( $websiteID ) {
 		$scansTable = TableRegistry::get('Scans');
 		

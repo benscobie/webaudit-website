@@ -94,3 +94,8 @@
 body {
 	overflow-y: scroll;
 }
+
+.page-header .scan-status {
+	font-size: 50%;
+	padding-left: 10px;
+}
