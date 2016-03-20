@@ -37,7 +37,10 @@ class Scan extends Entity {
 		$query = $scansTable->find('all')
 			->where([
 				'Scans.website_id =' => $websiteID,
-				'Scans.status =' => self::STATUS_IN_PROGRESS
+				'OR' => [
+					['Scans.status =' => self::STATUS_IN_PROGRESS],
+					['Scans.status =' => self::STATUS_QUEUED],
+				]
 			]);
 		
 		$scan = $query->first();
