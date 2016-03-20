@@ -90,6 +90,12 @@ foreach($test['test_data'] as $testdata) {
 					echo '<strong class="text-warning">Unsure</strong>';
 					break;
 			}
+			
+			if($testData['TLSV1_ENABLED'] == 1) {
+				?>
+				<a href="#" class="scan-help-link" data-test="ssl" data-scrollto="tls1">Help</a>
+				<?php
+			}
 			?>
 		</td>
 	</tr>
@@ -107,6 +113,12 @@ foreach($test['test_data'] as $testdata) {
 				case 2:
 					echo '<strong class="text-warning">Unsure</strong>';
 					break;
+			}
+			
+			if($testData['TLSV11_ENABLED'] == 0) {
+				?>
+				<a href="#" class="scan-help-link" data-test="ssl" data-scrollto="tls11">Help</a>
+				<?php
 			}
 			?>
 		</td>

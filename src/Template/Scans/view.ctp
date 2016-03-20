@@ -31,7 +31,18 @@ $this->assign('title', 'Scan report');
 			
 		</div>
 	</div>
-
+</div>
+<div id="help-modal" class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="exampleModalLabel">Help</h4>
+			</div>
+			<div class="modal-body">
+			</div>
+		</div>
+	</div>
 </div>
 <script id="scan-test-row-template" type="text/x-handlebars-template">
 <div class="scan-test-row {{row_classes}}" data-test-id="{{test_id}}" data-test-status="{{test_status}}" style="display: none;">
@@ -48,6 +59,9 @@ $this->assign('title', 'Scan report');
 <script>
 bindScanTestRows();
 initScanPageUpdater(<?= $scan['id']; ?>);
+var $testResultContainer = $('#scan-test-result-container');
+var $helpModal = $('#help-modal');
+var $modalBody = $helpModal.find('.modal-body');
 
 function initScanPageUpdater(scanID) {
 	var source = $("#scan-test-row-template").html();
@@ -71,20 +85,55 @@ function bindScanTestRows() {
 	});
 }
 
+function bindTestResultPage($content) {
+	$content.find('.scan-help-link').click(function() {
+		var test = $(this).data('test');
+		var scrollto = $(this).data('scrollto');
+		loadHelpPage(test, scrollto);
+	});
+}
+
+$helpModal.on('hide.bs.modal', function (e) {
+	// Fix for not scrolling after every other help page request
+	$modalBody.scrollTop(0);
+});
+
+$helpModal.on('show.bs.modal', function (e) {
+	resizeModal();
+});
+
+function loadHelpPage(test, scrollto) {
+	$.get('/help/tests/' + test)
+	.done(function(data) {
+		$modalBody.html(data);
+		$helpModal.modal('show');
+		var helpLink = $modalBody.find('[data-scrollto=' + scrollto + ']');
+		var padding = $modalBody.offset().top - $('body').offset().top;
+		$modalBody.scrollTop(helpLink.offset().top - padding);
+	})
+	.fail(function() {
+
+	});
+}
+
+$(window).resize(resizeModal);
+function resizeModal() {
+	var height = $(window).height() - 155;
+	$modalBody.css({"height":height,"overflow-y":"auto"});
+}
+
 var ajaxCount = 0;
 function getTestResult(testID, callback) {
 	var seqNumber = ++ajaxCount;
 	$.get('/tests/view/' + testID)
 	.done(function(data) {
 		if (seqNumber === ajaxCount) {
-			$('#scan-test-result-container').html(data);
+			$testResultContainer.html(data);
+			bindTestResultPage($testResultContainer);
 			callback();
 		}
 	})
 	.fail(function() {
-
-	})
-	.always(function() {
 
 	});
 }

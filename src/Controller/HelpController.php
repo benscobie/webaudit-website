@@ -16,13 +16,9 @@ class HelpController extends AppController {
 		$this->Auth->deny();
 	}
 	
-	public function ssl() {
+	public function tests($test) {
 		$this->autoRender = false;
+		$this->render('/Help/Tests/' . strtolower($test), false);
 	}
-	
-	public function headers() {
-		$this->autoRender = false;
-	}
-
 
 }
