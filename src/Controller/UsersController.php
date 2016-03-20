@@ -9,11 +9,17 @@ use Cake\Auth\DefaultPasswordHasher;
 use Cake\Core\Configure;
 
 class UsersController extends AppController {
-
+	
 	public function beforeFilter(Event $event) {
 		parent::beforeFilter($event);
 		$this->Auth->allow(['register', 'logout']);
 	}
+	
+	public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Paginator');
+    }
 
 	public function index() {
 		$this->set('users', $this->Users->find('all'));
@@ -111,15 +117,22 @@ class UsersController extends AppController {
 
 	public function billing() {
 		$userID = $this->Auth->user('id');
-		$user = $this->Users->get($userID, [
-			'contain' => ['Payments']
-		]);
+		
+		$paymentsTable = TableRegistry::get('Payments');
+		$payments = $paymentsTable->find()->where(['Payments.user_id =' => $userID]);
+		
+		$paginateConfig = [
+			'limit' => 10,
+			'order' => [
+				'Payments.id' => 'desc'
+			]
+		];
 		
 		$creditPrice = number_format(Configure::read('WebAudit.CreditPrice'), 2);
 		$creditCurrency = Configure::read('WebAudit.CreditCurrency');
 
 		$this->set(compact('userID', 'creditPrice', 'creditCurrency'));
-		$this->set('payments', $user['payments']);
+		$this->set('payments', $this->Paginator->paginate($payments, $paginateConfig));
 	}
 
 }
