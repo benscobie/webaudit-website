@@ -78,12 +78,30 @@ class WebsitesController extends AppController {
 				return $this->redirect(['controller' => 'Websites', 'action' => 'verify', $website->id]);
 			}
 			
-			$scansTable = TableRegistry::get('Scans');
-			$scan = $scansTable->newEntity();
-			$scan->website = $website;
-			
-			if ($scansTable->save($scan)) {
-				return $this->redirect(['controller' => 'Scans', 'action' => 'view', $scan->id]);
+			$usersTable = TableRegistry::get('Users');
+			$user = $usersTable->get($this->Auth->user('id'));
+			if ($user['credit_amount'] <= 0) {
+				// Ensure that the credit amount shown to the user is up to date
+				$this->Auth->setUser($user->toArray());
+				
+				$this->Flash->error(__('Insufficient credits to begin scan.'));
+				return $this->redirect(['controller' => 'Websites', 'action' => 'index', $website->id]);
+			} else {
+				$scansTable = TableRegistry::get('Scans');
+				$scan = $scansTable->newEntity();
+				$scan->website = $website;
+
+				if ($scansTable->save($scan)) {
+					$user->credit_amount -= 1;
+					$usersTable->save($user);
+					
+					// Update user session date to show new credit amount
+					$this->Auth->setUser($user->toArray());
+					
+					return $this->redirect(['controller' => 'Scans', 'action' => 'view', $scan->id]);
+				} else {
+					return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
+				}
 			}
 		}
 	}

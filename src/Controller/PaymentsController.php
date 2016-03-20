@@ -95,7 +95,10 @@ class PaymentsController extends AppController {
 	}
 
 	public function paymentComplete() {
-		
+		// Update user session date to show new credit amount
+		$usersTable = TableRegistry::get('Users');
+		$user = $usersTable->get($this->Auth->user('id'))->toArray();
+		$this->Auth->setUser($user);
 	}
 
 }
