@@ -13,6 +13,7 @@ class PaymentsController extends AppController {
 	public function beforeFilter(Event $event) {
 		parent::beforeFilter($event);
 		$this->Auth->allow('paypalIpn');
+		$this->Security->config('unlockedActions', ['paypalComplete', 'paymentCancel', 'paypalIpn']);
 		if (in_array($this->request->action, ['paypalComplete', 'paymentCancel', 'paypalIpn'])) {
 			$this->eventManager()->off($this->Csrf);
 		}
