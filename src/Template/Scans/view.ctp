@@ -1,9 +1,6 @@
 <?php
 $this->assign('title', 'Scan report');
 ?>
-<div class="page-header">
-	<h1><?= $this->fetch('title'); ?></h1>
-</div>
 <div class="scans" data-scan-status="<?= $scan['status']; ?>">
 	<div class="row">
 		<div id="scan-test-container" class="col-md-4">
