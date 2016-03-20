@@ -41,8 +41,8 @@
 		<input type="hidden" name="lc" value="GB">
 		<input type="hidden" name="custom" value="<?= $userID; ?>" >
 		<input type="hidden" name="notify_url" value="http://webaudit.benscobie.com/payments/paypal_ipn">
-		<input type="hidden" name="cancel_return" value="http://webaudit.benscobie.com/payments/paypal_cancel">
-		<input type="hidden" name="return" value="http://webaudit.benscobie.com/payments/paypal_complete">
+		<input type="hidden" name="cancel_return" value="http://webaudit.benscobie.com/payments/payment_cancel">
+		<input type="hidden" name="return" value="http://webaudit.benscobie.com/payments/payment_complete">
 		<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
 	</form>
 	<?php
