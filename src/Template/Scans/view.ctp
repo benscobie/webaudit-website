@@ -5,12 +5,19 @@ $this->assign('title', 'Scan report');
 ?>
 <div class="page-header">
 	<h1><?= $this->fetch('title'); ?> <?php
-	if($scan['status'] == Scan::STATUS_QUEUED) { ?>
+	if ($scan['status'] == Scan::STATUS_QUEUED) { ?>
 		<small class="scan-status">Position in queue: <span><?= $queuePosition; ?></span></small>
+		<?php
+	} elseif ($scan['status'] == Scan::STATUS_IN_PROGRESS){ ?>
+		<small class="scan-status">Scan in progress</small>
+		<?php
+	} elseif ($scan['status'] == Scan::STATUS_COMPLETED){ ?>
+		<small class="scan-status">Finished on <?= $scan['finished_date']; ?></small>
 		<?php
 	}
 	?>
 	</h1>
+	
 </div>
 <div class="scans" data-scan-status="<?= $scan['status']; ?>">
 	<div class="row">
@@ -168,7 +175,7 @@ function updateScanProgress(scanID, template) {
 				}
 			} else {
 				$('.scan-status').fadeOut(function() {
-					$(this).html("Position in queue: <span>" + newPositionInQueue + "</span>").fadeIn();
+					$(this).html('Position in queue: <span>' + newPositionInQueue + '</span>').fadeIn();
 				});
 			}
 		}
@@ -181,7 +188,7 @@ function updateScanProgress(scanID, template) {
 		
 		if (oldStatus != <?= Scan::STATUS_COMPLETED; ?> && newStatus == <?= Scan::STATUS_COMPLETED; ?>) {
 			$('.scan-status').fadeOut(function() {
-				$(this).html('');
+				$(this).html('Finished on ' + data.scan.finished_date).fadeIn();
 			});
 		}
 	
