@@ -49,8 +49,8 @@ class AppController extends Controller {
 		$this->loadComponent('Security');
 		$this->loadComponent('Auth', [
 			'loginRedirect' => [
-				'controller' => 'Users',
-				'action' => 'dashboard'
+				'controller' => 'Websites',
+				'action' => 'index'
 			],
 			'logoutRedirect' => [
 				'controller' => 'Pages',

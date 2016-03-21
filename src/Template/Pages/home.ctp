@@ -1,6 +1,6 @@
 <?php $this->assign('title', 'Home'); ?>
 <div>
-	<p>WebAudit is created by myself, Ben Scobie, for my college degree project.</p>
+	<p>WebAudit was created by myself, Ben Scobie, as a college degree project.</p>
 	<p>The Web Audit project aims to identify security pitfalls of websites and to recommend solutions to the problems it finds. It aims to be as user friendly as possible and is made so even those with little technical background can understand the solutions it proposes.</p>
 	<hr>
 	<h3>Current features</h3>
