@@ -1,4 +1,6 @@
-<?php $this->assign('title', 'Websites'); ?>
+<?php 
+use \App\Model\Entity\Scan;
+$this->assign('title', 'Websites'); ?>
 <div class="websites form">
 	<?= $this->Form->create($website, ['id' => 'add-new-website']) ?>
 		<div class="form-group">
@@ -35,12 +37,14 @@
 				<th scope="row"><?= $website->getFullUrl(); ?></th>
 				<th scope="row"><?= (!$website['verified']) ? "Unverified" : "Verified"  ?></th>
 				<th scope="row"><?php
+				$scan = Scan::getActiveScanForWebsite($website->id);
+				
 				if (!$website['verified']) {
 					echo $this->Html->link('Verify', ['controller' => 'Websites', 'action' => 'verify', $website->id]);
-				} elseif (!$website->scanInProgress()) {
+				} elseif (empty($scan)) {
 					echo $this->Html->link('Start Scan', ['controller' => 'Websites', 'action' => 'scan', $website->id]);
 				} else {
-					echo $this->Html->link('View Scan', ['controller' => 'Websites', 'action' => 'scan', $website->id]);
+					echo $this->Html->link('View Scan', ['controller' => 'Scans', 'action' => 'view', $scan->id]);
 				}
 				?></th>
 			</tr>
