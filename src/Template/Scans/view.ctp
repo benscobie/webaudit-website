@@ -27,15 +27,15 @@ $this->assign('title', 'Scan report');
 			</div>
 			<?php
 			if (!empty($scan['tests'])) {
-				foreach ($scan['tests'] as $test) {
+				foreach ($scan['tests'] as $testRan) {
 					?>
-					<div class="scan-test-row <?= $test['status'] != 2 ? 'disabled' : ''; ?>" data-test-id="<?= $test['id']; ?>" data-test-status=<?= $test['status']; ?>>
+					<div class="scan-test-row <?= (isset($test) && $test['id'] == $testRan['id']) ? 'active' : ''; ?> <?= $testRan['status'] != 2 ? 'disabled' : ''; ?>" data-test-id="<?= $testRan['id']; ?>" data-test-status=<?= $testRan['status']; ?>>
 						<div class="row">
 							<div class="col-xs-8">
-								<?= $test['friendly_name']; ?>
+								<?= $testRan['friendly_name']; ?>
 							</div>
 							<div class="col-xs-4">
-								<i class="fa fa-circle-o-notch fa-spin fa-pull-right test-progress-indicator <?= $test['status'] == 1 ? '' : 'hide' ?>"></i>
+								<i class="fa fa-circle-o-notch fa-spin fa-pull-right test-progress-indicator <?= $testRan['status'] == 1 ? '' : 'hide' ?>"></i>
 							</div>
 						</div>
 					</div>
@@ -55,7 +55,11 @@ $this->assign('title', 'Scan report');
 			?>
 		</div>
 		<div id="scan-test-result-container" class="col-md-8">
-			
+			<?php
+			if (isset($test)) {
+				echo $this->render('/Tests/' . strtolower($test['name']), false);
+			}
+			?>
 		</div>
 	</div>
 </div>
@@ -84,10 +88,14 @@ $this->assign('title', 'Scan report');
 </div>
 </script>
 <script>
+var initialTimouet = 500;
+if ( <?= $scan['status']; ?> === <?= Scan::STATUS_QUEUED; ?>) {
+	initialTimouet = 2000;
+}
 bindScanTestRows();
 setTimeout(function () {
 	initScanPageUpdater(<?= $scan['id']; ?>);
-}, 1000);
+}, initialTimouet);
 
 
 var $testResultContainer = $('#scan-test-result-container');
@@ -175,7 +183,7 @@ function updateScanProgress(scanID, template) {
 	.done(function(data) {
 		var oldStatus = parseInt($('.scans').data('scan-status'));
 		var newStatus = data.scan.status;
-		$('.scans').data('status', newStatus);
+		$('.scans').data('scan-status', newStatus);
 		
 		if (newStatus === <?= Scan::STATUS_QUEUED; ?>) {
 			var newPositionInQueue = data.scan.position_in_queue;
@@ -230,6 +238,10 @@ function updateScanProgress(scanID, template) {
 
 				var newTestRowHtml = template(context);
 				$(newTestRowHtml).appendTo('#scan-test-container').fadeIn('slow');
+				
+				if (test.status === 2 && $('.scan-test-row active').length === 0) {
+					$('.scan-test-row').first().click();
+				}
 			} else {
 				var status = test.status;
 				if (status !== 2) {
@@ -243,21 +255,30 @@ function updateScanProgress(scanID, template) {
 				} else {
 					testRow.find('.test-progress-indicator').addClass('hide');
 				}
+				
+				if (test.status === 2 && $('.scan-test-row active').length === 0) {
+					$('.scan-test-row').first().click();
+				}
 			}
 		});
 		
 		bindScanTestRows();
 
 		if (newStatus !== 2) {
+			var timeout = 500;
+			if ( newStatus === <?= Scan::STATUS_QUEUED; ?>) {
+				timeout = 2000;
+			}
+			
 			setTimeout(function () {
 				updateScanProgress(scanID, template);
-			}, 1000);
+			}, timeout);
 		}
 	})
 	.fail(function() {
 		setTimeout(function () {
 			updateScanProgress(scanID, template);
-		}, 1000);
+		}, 500);
 	})
 	.always(function() {
 

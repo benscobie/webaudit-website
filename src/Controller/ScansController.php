@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\NotFoundException;
 use Cake\Network\Exception\UnauthorizedException;
 
@@ -43,6 +44,17 @@ class ScansController extends AppController {
 		if ($scan['website']['user_id'] != $this->Auth->user('id')) {
 			$this->Flash->error(__('Unauthorised.'));
 			return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
+		}
+		
+		
+		// Load single test to show
+		if (!empty($scan['tests']) && isset($scan['tests'][0]['id'])) {
+			$testsTable = TableRegistry::get('Tests');
+			$test = $testsTable->get($scan['tests'][0]['id'], [
+				'contain' => ['Scans' => ['Websites'], 'TestData']
+			]);
+			
+			$this->set('test', $test);
 		}
 		
 		$this->set('queuePosition', $scan->queuePosition());
