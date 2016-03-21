@@ -60,7 +60,6 @@ $cakeDescription = 'WebAudit';
 						<?php
 						}
 						?>
-						<li><?= $this->Html->link('About', '/about'); ?></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<?php
