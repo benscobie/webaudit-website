@@ -23,9 +23,10 @@ $this->assign('title', 'Scan report');
 	<div class="row">
 		<div id="scan-test-container" class="col-md-4">
 			<div id="scan-test-row-header">
-				Tests
+				Checks performed
 			</div>
 			<?php
+			if (!empty($scan['tests'])) {
 				foreach ($scan['tests'] as $test) {
 					?>
 					<div class="scan-test-row <?= $test['status'] != 2 ? 'disabled' : ''; ?>" data-test-id="<?= $test['id']; ?>" data-test-status=<?= $test['status']; ?>>
@@ -40,6 +41,17 @@ $this->assign('title', 'Scan report');
 					</div>
 					<?php
 				}
+			} else {
+				?>
+				<div class="scan-test-row-example">
+					<div class="row">
+						<div class="col-xs-12">
+							Checks will appear in this list
+						</div>
+					</div>
+				</div>
+				<?php
+			}
 			?>
 		</div>
 		<div id="scan-test-result-container" class="col-md-8">
@@ -157,6 +169,7 @@ function getTestResult(testID, callback) {
 	});
 }
 
+var exampleTestRemoved = <?= !empty($scan['tests']) ? 'true' : 'false' ?>;
 function updateScanProgress(scanID, template) {
 	$.getJSON('/scans/getprogress/' + scanID)
 	.done(function(data) {
@@ -192,6 +205,9 @@ function updateScanProgress(scanID, template) {
 			});
 		}
 	
+		if (!exampleTestRemoved && data.scan.tests.length > 0) {
+			$('.scan-test-row-example').remove();
+		}
 		
 		$.each(data.scan.tests, function(key, test) {
 			var testID = test.id;
