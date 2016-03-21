@@ -79,4 +79,16 @@ class Website extends Entity {
 		return (!empty(Scan::getActiveScanForWebsite($this->id)));
 	}
 	
+	public static function hasScans($websiteID) {
+		$scansTable = TableRegistry::get('Scans');
+		
+		$query = $scansTable->find('all')
+			->where([
+				'Scans.website_id =' => $websiteID,
+			]);
+		
+		$website = $query->first();
+		return (!empty($website));
+	}
+	
 }

@@ -44,8 +44,6 @@ class WebsitesController extends AppController {
 		$website = $this->Websites->get($id);
 		
 		if (!empty($website)) {
-			$websitesTable = TableRegistry::get('Websites');
-			
 			if ($website->user_id != $this->Auth->user('id')) {
 				$this->Flash->error(__('Unauthorised.'));
 				return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
@@ -56,7 +54,7 @@ class WebsitesController extends AppController {
 				if (!$verified) {
 					$this->Flash->error(__('Error verifying ownership.'));
 				} else {
-					$this->Flash->success('Ownership verified');
+					$this->Flash->success(__('Ownership verified'));
 					return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
 				}
 				

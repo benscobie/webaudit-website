@@ -1,3 +1,8 @@
+<?php
+if (!empty($website)) {
+	$this->assign('title', 'Scans for ' . $website['hostname']);
+}
+?>
 <div class="scans form">
 <?php
 if (!empty($scans)) {
@@ -44,5 +49,6 @@ if ($this->Paginator->hasPage(2)) {
 </nav>
 <?php
 }
-} ?>
+}
+?>
 </div>

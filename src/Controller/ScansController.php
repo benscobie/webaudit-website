@@ -29,8 +29,25 @@ class ScansController extends AppController {
 		$this->Auth->deny();
 	}
 
-	public function index() {
-		$scans = $this->paginate($this->Scans);
+	public function index($websiteID = null) {
+		if (!empty($websiteID)) {
+			$websitesTable = TableRegistry::get('Websites');
+			$website = $websitesTable->get($websiteID);
+			if (!empty($website)) {
+				if ($website->user_id != $this->Auth->user('id')) {
+					$this->Flash->error(__('Unauthorised.'));
+					return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
+				}
+			}
+			
+			$this->set(compact('website'));
+			
+			$query = $this->Scans->find('all')->where(['website_id' => $websiteID]);
+			$scans = $this->paginate($query);
+		} else {
+			$scans = $this->paginate($this->Scans);
+		}
+
 		$this->set(compact('scans'));
 	}
 

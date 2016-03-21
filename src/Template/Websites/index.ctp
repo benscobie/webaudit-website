@@ -1,5 +1,7 @@
 <?php 
 use \App\Model\Entity\Scan;
+use \App\Model\Entity\Website;
+
 $this->assign('title', 'Websites'); ?>
 <div class="websites form">
 	<?= $this->Form->create($website, ['id' => 'add-new-website']) ?>
@@ -28,11 +30,13 @@ $this->assign('title', 'Websites'); ?>
 				<th><?= $this->Paginator->sort('hostname', 'Website URL') ?></th>
 				<th><?= $this->Paginator->sort('verified', 'Status') ?></th>
 				<th>&nbsp;</th>
+				<th>&nbsp;</th>
 			</tr>
 		</thead>
 		<tbody>
 		<?php
-		foreach ($websites as $website) { ?>
+		foreach ($websites as $website) {
+			?>
 			<tr>
 				<th scope="row"><?= $website->getFullUrl(); ?></th>
 				<th scope="row"><?= (!$website['verified']) ? "Unverified" : "Verified"  ?></th>
@@ -47,6 +51,13 @@ $this->assign('title', 'Websites'); ?>
 					echo $this->Html->link('View Scan', ['controller' => 'Scans', 'action' => 'view', $scan->id]);
 				}
 				?></th>
+				<th>
+				<?php
+				if (Website::hasScans($website['id'])) {
+					echo $this->Html->link('View all scans', ['controller' => 'Scans', 'action' => 'index', $website->id]);
+				}
+				?>
+				</th>
 			</tr>
 		<?php
 		}
