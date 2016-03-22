@@ -6,7 +6,10 @@
 			<?= $this->Form->input('current_password', ['label' => 'Current password', 'type' => 'password', 'class' => 'form-control', 'placeholder' => 'Password', 'required', 'autofocus']); ?>
 		</div>
 		<div class="form-group">
-			<?= $this->Form->input('name', ['class' => 'form-control', 'placeholder' => 'Name', 'required', 'autofocus']) ?>
+			<?= $this->Form->input('first_name', ['class' => 'form-control', 'placeholder' => 'First name', 'required', 'autofocus']) ?>
+		</div>
+		<div class="form-group">
+			<?= $this->Form->input('last_name', ['class' => 'form-control', 'placeholder' => 'Last name', 'required', 'autofocus']) ?>
 		</div>
 		<div class="form-group">
 			<?= $this->Form->input('email', ['class' => 'form-control', 'placeholder' => 'Email address', 'required', 'autofocus']) ?>

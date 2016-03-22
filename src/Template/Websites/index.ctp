@@ -24,7 +24,7 @@ $this->assign('title', 'Websites'); ?>
 	<?php
 	if (!empty($websites)) {
 	?>
-	<table class="table">
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th><?= $this->Paginator->sort('hostname', 'Website URL') ?></th>

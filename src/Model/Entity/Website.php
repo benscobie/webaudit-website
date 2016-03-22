@@ -75,10 +75,6 @@ class Website extends Entity {
 		}
 	}
 	
-	public function scanInProgress() {
-		return (!empty(Scan::getActiveScanForWebsite($this->id)));
-	}
-	
 	public static function hasScans($websiteID) {
 		$scansTable = TableRegistry::get('Scans');
 		

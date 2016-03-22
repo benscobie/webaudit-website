@@ -22,10 +22,15 @@ class UsersTable extends Table {
 	public function validationDefault(Validator $validator) {
 		return $validator->notEmpty('email', 'An email is required')
 						->notEmpty('password', 'A password is required')
-						->add('name', [
+						->add('first_name', [
 							'maxLength' => [
 								'rule' => ['maxLength', 255],
-								'message' => 'Name can be a maximum of 255 characters long',
+								'message' => 'First name can be a maximum of 255 characters long',
+							]])
+						->add('last_name', [
+							'maxLength' => [
+								'rule' => ['maxLength', 255],
+								'message' => 'Last name can be a maximum of 255 characters long',
 							]])
 						->add('email', [
 							'maxLength' => [

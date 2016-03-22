@@ -7,7 +7,7 @@ if (!empty($website)) {
 <?php
 if (!empty($scans)) {
 ?>
-<table class="table">
+<table class="table table-striped">
 	<thead>
 		<tr>
 			<th>Website URL</th>

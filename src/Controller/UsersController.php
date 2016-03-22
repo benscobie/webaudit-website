@@ -54,6 +54,7 @@ class UsersController extends AppController {
 					} else {
 						$this->Flash->success('Profile updated');
 					}
+					return $this->redirect($this->Auth->redirectUrl());
 				}
 			} else {
 				$this->Flash->error(__('Incorrect current password entered.'));
@@ -109,10 +110,6 @@ class UsersController extends AppController {
 
 	public function logout() {
 		return $this->redirect($this->Auth->logout());
-	}
-
-	public function dashboard() {
-		
 	}
 
 	public function billing() {
