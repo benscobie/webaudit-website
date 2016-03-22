@@ -1213,3 +1213,10 @@ button.close {
   border: 0;
   -webkit-appearance: none;
 }
+
+code,
+kbd,
+pre,
+samp {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}

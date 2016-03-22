@@ -1,1 +1,1 @@
-X-Frame-Options tells the browser whether you want to allow your site to be framed or not. By preventing a browser from framing your site you can defend against attacks like clickjacking.
+X-Frame-Options tells the browser whether you want to allow your site to be framed or not. By preventing a browser from framing your site you can defend against attacks like clickjacking. <a href="#" class="scan-help-link" data-test="headers" data-scrollto="xfo">Help</a>

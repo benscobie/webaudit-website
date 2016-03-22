@@ -1,1 +1,1 @@
-X-XSS-Protection sets the configuration for the cross-site scripting filters built into most browsers. The best configuration is "X-XSS-Protection: 1; mode=block".
+X-XSS-Protection sets the configuration for the cross-site scripting filters built into most browsers. <a href="#" class="scan-help-link" data-test="headers" data-scrollto="xxp">Help</a>

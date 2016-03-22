@@ -92,15 +92,16 @@ var initialTimouet = 500;
 if ( <?= $scan['status']; ?> === <?= Scan::STATUS_QUEUED; ?>) {
 	initialTimouet = 2000;
 }
-bindScanTestRows();
-setTimeout(function () {
-	initScanPageUpdater(<?= $scan['id']; ?>);
-}, initialTimouet);
-
 
 var $testResultContainer = $('#scan-test-result-container');
 var $helpModal = $('#help-modal');
 var $modalBody = $helpModal.find('.modal-body');
+
+bindScanTestRows();
+bindTestResultPage($testResultContainer);
+setTimeout(function () {
+	initScanPageUpdater(<?= $scan['id']; ?>);
+}, initialTimouet);
 
 function initScanPageUpdater(scanID) {
 	var source = $("#scan-test-row-template").html();
@@ -147,7 +148,7 @@ function loadHelpPage(test, scrollto) {
 		$modalBody.html(data);
 		$helpModal.modal('show');
 		var helpLink = $modalBody.find('[data-scrollto=' + scrollto + ']');
-		var padding = $modalBody.offset().top - $('body').offset().top;
+		var padding = $modalBody.offset().top - $('body').offset().top + 10;
 		$modalBody.scrollTop(helpLink.offset().top - padding);
 	})
 	.fail(function() {
