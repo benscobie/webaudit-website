@@ -37,7 +37,7 @@ foreach($test['test_data'] as $testdata) {
 	</tr>
 </table>
 
-<h2>Protocols</h2>
+<h2>Protocols <small class="scan-status"><a href="#" class="scan-help-link" data-test="ssl">Help</a></small></h2>
 <table class="table">
 	<tr>
 		<td class="col-md-3"><strong>SSL 2.0 Enabled</strong></td>
@@ -90,12 +90,6 @@ foreach($test['test_data'] as $testdata) {
 					echo '<strong class="text-warning">Unsure</strong>';
 					break;
 			}
-			
-			if($testData['TLSV1_ENABLED'] == 1) {
-				?>
-				<a href="#" class="scan-help-link" data-test="ssl" data-scrollto="tls1">Help</a>
-				<?php
-			}
 			?>
 		</td>
 	</tr>
@@ -113,12 +107,6 @@ foreach($test['test_data'] as $testdata) {
 				case 2:
 					echo '<strong class="text-warning">Unsure</strong>';
 					break;
-			}
-			
-			if($testData['TLSV11_ENABLED'] == 0) {
-				?>
-				<a href="#" class="scan-help-link" data-test="ssl" data-scrollto="tls11">Help</a>
-				<?php
 			}
 			?>
 		</td>

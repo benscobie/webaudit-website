@@ -6,7 +6,7 @@
 <p>The time, in seconds, that the browser should remember that this site is only to be accessed using HTTPS.</p>
 <p><strong>includeSubDomains Optional</strong></p>
 <p>If this optional parameter is specified, this rule applies to all of the site's subdomains as well.</p>
-<p><h3>Setup</h3>
+<h3>Setup</h3>
 <h4>Apache</h4>
 <blockquote><pre>Header always set Strict-Transport-Security "max-age=31536000; includeSubdomains;"</pre></blockquote>
 <h4>IIS</h4>

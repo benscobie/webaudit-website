@@ -130,6 +130,7 @@ function bindTestResultPage($content) {
 		var test = $(this).data('test');
 		var scrollto = $(this).data('scrollto');
 		loadHelpPage(test, scrollto);
+		return false;
 	});
 }
 
@@ -148,8 +149,10 @@ function loadHelpPage(test, scrollto) {
 		$modalBody.html(data);
 		$helpModal.modal('show');
 		var helpLink = $modalBody.find('[data-scrollto=' + scrollto + ']');
-		var padding = $modalBody.offset().top - $('body').offset().top + 10;
-		$modalBody.scrollTop(helpLink.offset().top - padding);
+		if (helpLink.length !== 0) {
+			var padding = $modalBody.offset().top - $('body').offset().top + 10;
+			$modalBody.scrollTop(helpLink.offset().top - padding);
+		}
 	})
 	.fail(function() {
 
