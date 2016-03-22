@@ -18,6 +18,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\I18n\Time;
 
 /**
  * Application Controller
@@ -80,6 +81,9 @@ class AppController extends Controller {
 				in_array($this->response->type(), ['application/json', 'application/xml'])) {
 			$this->set('_serialize', true);
 		}
+		
+		Time::setToStringFormat('dd/MM/yy, HH:MM');
+		Time::setJsonEncodeFormat('dd/MM/yy, HH:MM');
 
 		$this->set('renderLayoutTitle', $this->renderLayoutTitle);
 		$this->set('userLoggedIn', $this->Auth->user());
