@@ -54,7 +54,7 @@ $this->assign('title', 'Scan report');
 			}
 			?>
 		</div>
-		<div id="scan-test-result-container" class="col-md-8">
+		<div id="scan-test-result-container" class="col-md-8" data-test-id="<?= isset($test) ? $test['id'] : ""; ?>">
 			<?php
 			if (isset($test)) {
 				echo $this->render('/Tests/' . strtolower($test['name']), false);
@@ -115,7 +115,7 @@ function initScanPageUpdater(scanID) {
 function bindScanTestRows() {
 	$(document).off('click', '.scan-test-row').on('click', '.scan-test-row',function(e) {
 		if (!$(this).hasClass('disabled')) {
-			var testID = $(this).data('test-id');
+			var testID = parseInt($(this).data('test-id'));
 			var that = $(this);
 			getTestResult(testID, function() {
 				$('.scan-test-row').removeClass('active');
@@ -167,18 +167,22 @@ function resizeModal() {
 
 var ajaxCount = 0;
 function getTestResult(testID, callback) {
-	var seqNumber = ++ajaxCount;
-	$.get('/tests/view/' + testID)
-	.done(function(data) {
-		if (seqNumber === ajaxCount) {
-			$testResultContainer.html(data);
-			bindTestResultPage($testResultContainer);
-			callback();
-		}
-	})
-	.fail(function() {
+	var currentTestIdShown = parseInt($testResultContainer.data('test-id'));
+	if (currentTestIdShown !== testID) {
+		var seqNumber = ++ajaxCount;
+		$.get('/tests/view/' + testID)
+		.done(function(data) {
+			if (seqNumber === ajaxCount) {
+				$testResultContainer.data('test-id', testID);
+				$testResultContainer.html(data);
+				bindTestResultPage($testResultContainer);
+				callback();
+			}
+		})
+		.fail(function() {
 
-	});
+		});
+	}
 }
 
 var exampleTestRemoved = <?= !empty($scan['tests']) ? 'true' : 'false' ?>;
@@ -221,6 +225,7 @@ function updateScanProgress(scanID, template) {
 			$('.scan-test-row-example').remove();
 		}
 		
+		var loadFirstTestPage = false;
 		$.each(data.scan.tests, function(key, test) {
 			var testID = test.id;
 			var testRow = $('.scan-test-row[data-test-id=' + testID + ']');
@@ -244,7 +249,7 @@ function updateScanProgress(scanID, template) {
 				$(newTestRowHtml).appendTo('#scan-test-container').fadeIn('slow');
 				
 				if (test.status === 2 && $('.scan-test-row active').length === 0) {
-					$('.scan-test-row').first().click();
+					loadFirstTestPage = true;
 				}
 			} else {
 				var status = test.status;
@@ -265,6 +270,10 @@ function updateScanProgress(scanID, template) {
 				}
 			}
 		});
+		
+		if (loadFirstTestPage) {
+			$('.scan-test-row').first().click();
+		}
 		
 		bindScanTestRows();
 
