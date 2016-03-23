@@ -49,7 +49,7 @@
 	if (!empty($payments)) {
 	?>
 	<h2>Transaction History</h2>
-	<table class="table table-striped">
+	<table class="table table-striped table-responsive">
 		<thead>
 			<tr>
 				<th>Payment ID</th>
