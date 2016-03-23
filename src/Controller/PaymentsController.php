@@ -19,10 +19,6 @@ class PaymentsController extends AppController {
 		}
 	}
 
-	public function index() {
-		
-	}
-
 	public function paypalIpn() {
 		$this->autoRender = false;
 		// https://developer.paypal.com/developer/ipnSimulator/

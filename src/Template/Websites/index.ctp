@@ -24,46 +24,48 @@ $this->assign('title', 'Websites'); ?>
 	<?php
 	if (!empty($websites)) {
 	?>
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th><?= $this->Paginator->sort('hostname', 'Website URL') ?></th>
-				<th><?= $this->Paginator->sort('verified', 'Status') ?></th>
-				<th>&nbsp;</th>
-				<th>&nbsp;</th>
-			</tr>
-		</thead>
-		<tbody>
-		<?php
-		foreach ($websites as $website) {
-			?>
-			<tr>
-				<th scope="row"><?= $website->getFullUrl(); ?></th>
-				<th scope="row"><?= (!$website['verified']) ? "Unverified" : "Verified"  ?></th>
-				<th scope="row"><?php
-				$scan = Scan::getActiveScanForWebsite($website->id);
-				
-				if (!$website['verified']) {
-					echo $this->Html->link('Verify', ['controller' => 'Websites', 'action' => 'verify', $website->id]);
-				} elseif (empty($scan)) {
-					echo $this->Html->link('Start Scan', ['controller' => 'Websites', 'action' => 'scan', $website->id]);
-				} else {
-					echo $this->Html->link('View Scan', ['controller' => 'Scans', 'action' => 'view', $scan->id]);
-				}
-				?></th>
-				<th>
-				<?php
-				if (Website::hasScans($website['id'])) {
-					echo $this->Html->link('View all scans', ['controller' => 'Scans', 'action' => 'index', $website->id]);
-				}
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th><?= $this->Paginator->sort('hostname', 'Website URL') ?></th>
+					<th><?= $this->Paginator->sort('verified', 'Status') ?></th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php
+			foreach ($websites as $website) {
 				?>
-				</th>
-			</tr>
-		<?php
-		}
-		?>
-		</tbody>
-	</table>
+				<tr>
+					<th scope="row"><?= $website->getFullUrl(); ?></th>
+					<th scope="row"><?= (!$website['verified']) ? "Unverified" : "Verified"  ?></th>
+					<th scope="row"><?php
+					$scan = Scan::getActiveScanForWebsite($website->id);
+
+					if (!$website['verified']) {
+						echo $this->Html->link('Verify', ['controller' => 'Websites', 'action' => 'verify', $website->id]);
+					} elseif (empty($scan)) {
+						echo $this->Html->link('Start Scan', ['controller' => 'Websites', 'action' => 'scan', $website->id]);
+					} else {
+						echo $this->Html->link('View Scan', ['controller' => 'Scans', 'action' => 'view', $scan->id]);
+					}
+					?></th>
+					<th>
+					<?php
+					if (Website::hasScans($website['id'])) {
+						echo $this->Html->link('View all scans', ['controller' => 'Scans', 'action' => 'index', $website->id]);
+					}
+					?>
+					</th>
+				</tr>
+			<?php
+			}
+			?>
+			</tbody>
+		</table>
+	</div>
 	<?php
 	if ($this->Paginator->hasPage(2)) {
 	?>
