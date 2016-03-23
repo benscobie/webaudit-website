@@ -11,14 +11,21 @@ $this->assign('title', 'Websites'); ?>
 				<span class="input-group-btn">
 					<?php
 					$options = ['http' => 'HTTP', 'https' => 'HTTPS'];
-					echo $this->Form->select('protocol', $options, ['class' => 'btn']);
+					echo $this->Form->select('protocol', $options, ['class' => 'btn', 'error' => false]);
 					?>
 				</span>
-				<?= $this->Form->text('hostname', ['class' => 'form-control']); ?>
+				<?= $this->Form->input('hostname', ['class' => 'form-control', 'label' => false, 'error' => false]); ?>
 				<span class="input-group-btn">
 					<?= $this->Form->button('Add & Verify', ['type' => 'submit', 'class' => 'btn btn-default']); ?>
 				</span>
 			</div>
+			<?php
+			if ($this->Form->isFieldError('hostname')) {
+				echo $this->Form->error('hostname');
+			} elseif ($this->Form->isFieldError('protocol')) {
+				echo $this->Form->error('protocol');
+			}
+			?>
 		</div>
 	<?= $this->Form->end() ?>
 	<?php
