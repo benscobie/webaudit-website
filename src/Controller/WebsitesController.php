@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
+use Cake\Core\Configure;
 
 class WebsitesController extends AppController {
 	
@@ -35,9 +36,10 @@ class WebsitesController extends AppController {
 			]
 		];
 		
+		$websiteVerificationEnabled = Configure::read('WebAudit.EnableWebsiteVerification');
 		$websites = $this->paginate($this->Websites);
 		
-		$this->set(compact('website', 'websites'));
+		$this->set(compact('website', 'websites', 'websiteVerificationEnabled'));
 	}
 	
 	public function verify($id, $action = NULL) {
@@ -66,12 +68,13 @@ class WebsitesController extends AppController {
 	
 	public function scan($id) {
 		$website = $this->Websites->get($id);
-	
+		
 		if (!empty($website)) {
+			$enableVerify = Configure::read('WebAudit.EnableWebsiteVerification');
 			if ($website->user_id != $this->Auth->user('id')) {
 				$this->Flash->error(__('Unauthorised.'));
 				return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
-			} elseif ($website->verifyOwnership() != true) {
+			} elseif ($enableVerify && $website->verifyOwnership() != true) {
 				$this->Flash->error(__('The website needs to be verified before a scan can be scheduled.'));
 				return $this->redirect(['controller' => 'Websites', 'action' => 'verify', $website->id]);
 			}

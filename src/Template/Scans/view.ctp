@@ -1,5 +1,6 @@
 <?php
 use \App\Model\Entity\Scan;
+use \App\Model\Entity\Test;
 
 $this->assign('title', 'Scan report');
 ?>
@@ -17,7 +18,7 @@ $this->assign('title', 'Scan report');
 	}
 	?>
 	</h1>
-	
+	<h4><?= $scan['website']->getFullUrl(); ?></h4>
 </div>
 <div class="scans" data-scan-status="<?= $scan['status']; ?>">
 	<div class="row">
@@ -29,13 +30,14 @@ $this->assign('title', 'Scan report');
 			if (!empty($scan['tests'])) {
 				foreach ($scan['tests'] as $testRan) {
 					?>
-					<div class="scan-test-row <?= (isset($test) && $test['id'] == $testRan['id']) ? 'active' : ''; ?> <?= $testRan['status'] != 2 ? 'disabled' : ''; ?>" data-test-id="<?= $testRan['id']; ?>" data-test-status=<?= $testRan['status']; ?>>
+					<div class="scan-test-row <?= (isset($test) && $test['id'] == $testRan['id']) ? 'active' : ''; ?> <?= $testRan['status'] != Test::STATUS_COMPLETED ? 'disabled' : ''; ?>" data-test-id="<?= $testRan['id']; ?>" data-test-status=<?= $testRan['status']; ?>>
 						<div class="row">
 							<div class="col-xs-8">
 								<?= $testRan['friendly_name']; ?>
 							</div>
 							<div class="col-xs-4">
-								<i class="fa fa-circle-o-notch fa-spin fa-pull-right test-progress-indicator <?= $testRan['status'] == 1 ? '' : 'hide' ?>"></i>
+								<i class="fa fa-circle-o-notch fa-spin fa-pull-right test-progress-indicator <?= $testRan['status'] == Test::STATUS_IN_PROGRESS ? '' : 'hide' ?>"></i>
+								<span class="text-danger pull-right test-status-error <?= $testRan['status'] == Test::STATUS_ERROR ? '' : 'hide' ?>">Error</span>
 							</div>
 						</div>
 					</div>
@@ -83,6 +85,7 @@ $this->assign('title', 'Scan report');
 		</div>
 		<div class="col-xs-4">
 			<i class="fa fa-circle-o-notch fa-spin fa-pull-right test-progress-indicator {{progress_classes}}"></i>
+			<span class="text-danger pull-right test-status-error {{error_classes}}">Error</span>
 		</div>
 	</div>
 </div>
@@ -237,42 +240,48 @@ function updateScanProgress(scanID, template) {
 					test_friendly_name: test.friendly_name
 				};
 
-				if (test.status !== 1) {
+				if (test.status !== <?= Test::STATUS_IN_PROGRESS ?>) {
 					context.progress_classes = "hide";
 				}
 				
-				if (test.status !== 2) {
+				if (test.status !== <?= Test::STATUS_ERROR ?>) {
+					context.error_classes = "hide";
+				}
+				
+				if (test.status !== <?= Test::STATUS_COMPLETED ?>) {
 					context.row_classes = "disabled"
 				}
 
 				var newTestRowHtml = template(context);
 				$(newTestRowHtml).appendTo('#scan-test-container').fadeIn('slow');
 				
-				if (test.status === 2 && $('.scan-test-row active').length === 0) {
-					loadFirstTestPage = true;
+				if (test.status === <?= Test::STATUS_COMPLETED ?> && $('.scan-test-row active').length === 0) {
+					loadFirstTestPage = test.id;
 				}
 			} else {
-				var status = test.status;
-				if (status !== 2) {
+				if (test.status !== <?= Test::STATUS_COMPLETED ?>) {
 					testRow.addClass('disabled');
 				} else {
 					testRow.removeClass('disabled');
 				}
 				
-				if (status === 1) {
+				if (test.status === <?= Test::STATUS_IN_PROGRESS ?>) {
 					testRow.find('.test-progress-indicator').removeClass('hide');
 				} else {
 					testRow.find('.test-progress-indicator').addClass('hide');
 				}
 				
-				if (test.status === 2 && $('.scan-test-row active').length === 0) {
+				if (test.status === <?= Test::STATUS_COMPLETED ?> && $('.scan-test-row active').length === 0) {
 					$('.scan-test-row').first().click();
 				}
 			}
 		});
 		
-		if (loadFirstTestPage) {
-			$('.scan-test-row').first().click();
+		if (loadFirstTestPage !== false) {
+			var testRow = $('.scan-test-row[data-test-id=' + loadFirstTestPage + ']');
+			if (testRow.length) {
+				testRow.click();
+			}
 		}
 		
 		bindScanTestRows();

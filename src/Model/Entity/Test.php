@@ -20,6 +20,11 @@ class Test extends Entity {
 		"HEADERS" => "HTTP Headers"
 	];
 	
+	const STATUS_QUEUED = 0;
+	const STATUS_IN_PROGRESS = 1;
+	const STATUS_COMPLETED = 2;
+	const STATUS_ERROR = 3;
+	
 	protected function _getFriendlyName()
     {
         return (self::TEST_MAP[$this->name]);

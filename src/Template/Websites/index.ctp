@@ -43,7 +43,7 @@ $this->assign('title', 'Websites'); ?>
 				<th scope="row"><?php
 				$scan = Scan::getActiveScanForWebsite($website->id);
 				
-				if (!$website['verified']) {
+				if ($websiteVerificationEnabled && !$website['verified']) {
 					echo $this->Html->link('Verify', ['controller' => 'Websites', 'action' => 'verify', $website->id]);
 				} elseif (empty($scan)) {
 					echo $this->Html->link('Start Scan', ['controller' => 'Websites', 'action' => 'scan', $website->id]);

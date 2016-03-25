@@ -7,6 +7,7 @@ use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\NotFoundException;
 use Cake\Network\Exception\UnauthorizedException;
+use \App\Model\Entity\Test;
 
 class ScansController extends AppController {
 
@@ -63,19 +64,20 @@ class ScansController extends AppController {
 			return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
 		}
 		
-		
 		// Load single test to show
-		if (!empty($scan['tests']) && isset($scan['tests'][0]['id'])) {
-			$testsTable = TableRegistry::get('Tests');
-			$test = $testsTable->get($scan['tests'][0]['id'], [
-				'contain' => ['Scans' => ['Websites'], 'TestData']
-			]);
-			
-			$this->set('test', $test);
+		if (!empty($scan['tests'])) {
+			foreach ($scan['tests'] as $test) {
+				if ($test['status'] == Test::STATUS_COMPLETED) {
+					$testsTable = TableRegistry::get('Tests');
+					$test = $testsTable->get($test['id'], [
+						'contain' => ['Scans' => ['Websites'], 'TestData']
+					]);
+					$this->set('test', $test);
+				}
+			}
 		}
 		
 		$this->set('queuePosition', $scan->queuePosition());
-		
 		$this->set(compact('scan'));
 	}
 	
