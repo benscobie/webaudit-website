@@ -108,3 +108,9 @@ body {
 	font-size: 50%;
 	padding-left: 10px;
 }
+@media (max-width: 767px) {
+	.nav>li.navbar-text {
+		padding: 10px 15px;
+		margin: 0px;
+	}
+}

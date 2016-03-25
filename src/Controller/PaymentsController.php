@@ -19,10 +19,6 @@ class PaymentsController extends AppController {
 		}
 	}
 
-	public function index() {
-		
-	}
-
 	public function paypalIpn() {
 		$this->autoRender = false;
 		// https://developer.paypal.com/developer/ipnSimulator/
@@ -91,7 +87,8 @@ class PaymentsController extends AppController {
 	}
 
 	public function paymentCancel() {
-		
+		$this->Flash->success(__('Your payment has been cancelled.'));
+		return $this->redirect(['controller' => 'Users', 'action' => 'billing']);
 	}
 
 	public function paymentComplete() {
@@ -99,6 +96,8 @@ class PaymentsController extends AppController {
 		$usersTable = TableRegistry::get('Users');
 		$user = $usersTable->get($this->Auth->user('id'))->toArray();
 		$this->Auth->setUser($user);
+		$this->Flash->success(__('Payment successful.'));
+		return $this->redirect(['controller' => 'Users', 'action' => 'billing']);
 	}
 
 }

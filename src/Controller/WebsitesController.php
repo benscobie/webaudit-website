@@ -59,7 +59,12 @@ class WebsitesController extends AppController {
 					$this->Flash->success(__('Ownership verified'));
 					return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
 				}
-				
+			} elseif ($action == 'download') {
+				$verificationContent = $website['verification_content'];
+				$this->response->body($verificationContent);
+				$this->response->type('html');
+				$this->response->download($website->getVerificationFileUploadFileName());
+				return $this->response;
 			}
 		}
 		

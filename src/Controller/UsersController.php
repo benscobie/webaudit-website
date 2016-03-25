@@ -73,14 +73,12 @@ class UsersController extends AppController {
 		if ($this->request->is('post')) {
 			$user = $this->Users->patchEntity($user, $this->request->data);
 			if ($this->Users->save($user)) {
-				$this->Auth->setUser($user->toArray());
-				$this->Flash->success(__('The user has been saved.'));
-				return $this->redirect([
-							'controller' => 'Users',
-							'action' => 'home'
-				]);
+				$newUser = $this->Users->get($user['id']);
+				$this->Auth->setUser($newUser->toArray());
+				$this->Flash->success(__('Registration successfull.'));
+				return $this->redirect($this->Auth->redirectUrl());
 			}
-			$this->Flash->error(__('Unable to add the user.'));
+			$this->Flash->error(__('Error registering.'));
 		}
 		$this->set('user', $user);
 	}
