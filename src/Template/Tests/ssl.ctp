@@ -9,31 +9,31 @@ foreach($test['test_data'] as $testdata) {
 <table class="table">
 	<tr>
 		<td class="col-md-3"><strong>Common Name</strong></td>
-		<td><?= $testData['COMMON_NAME']; ?></td>
+		<td><?= isset($testData['COMMON_NAME']) ? $testData['COMMON_NAME'] : 'Unknown'; ?></td>
 	</tr>
 	<tr>
 		<td class="col-md-3"><strong>Valid From</strong></td>
-		<td><?= $testData['VALID_FROM']; ?></td>
+		<td><?= isset($testData['VALID_FROM']) ? $testData['VALID_FROM'] : 'Unknown'; ?></td>
 	</tr>
 	<tr>
 		<td class="col-md-3"><strong>Valid To</strong></td>
-		<td><?= $testData['VALID_TO']; ?></td>
+		<td><?= isset($testData['VALID_TO']) ? $testData['VALID_TO'] : 'Unknown'; ?></td>
 	</tr>
 	<tr>
 		<td class="col-md-3"><strong>Key Strength</strong></td>
-		<td><?= $testData['KEY_STRENGTH']; ?></td>
+		<td><?= isset($testData['KEY_STRENGTH']) ? $testData['KEY_STRENGTH'] : 'Unknown'; ?></td>
 	</tr>
 	<tr>
 		<td class="col-md-3"><strong>Issuer</strong></td>
-		<td><?= $testData['ISSUER']; ?></td>
+		<td><?= isset($testData['ISSUER']) ? $testData['ISSUER'] : 'Unknown'; ?></td>
 	</tr>
 	<tr>
 		<td class="col-md-3"><strong>Signature algorithm</strong></td>
-		<td><?= $testData['SIGNATURE_ALGORITHM']; ?></td>
+		<td><?= isset($testData['SIGNATURE_ALGORITHM']) ? $testData['SIGNATURE_ALGORITHM'] : 'Unknown'; ?></td>
 	</tr>
 	<tr>
 		<td class="col-md-3"><strong>Certificate Trusted</strong></td>
-		<td><?= ($testData['VALID_CERTIFICATE'] == 1) ? '<strong class="text-success">Yes</strong>' : '<strong class="text-danger">No</strong>'; ?></td>
+		<td><?= isset($testData['VALID_CERTIFICATE']) ? (($testData['VALID_CERTIFICATE'] == 1) ? '<strong class="text-success">Yes</strong>' : '<strong class="text-danger">No</strong>') : 'Unknown'; ?></td>
 	</tr>
 </table>
 
