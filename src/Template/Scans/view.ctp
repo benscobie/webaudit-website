@@ -255,7 +255,7 @@ function updateScanProgress(scanID, template) {
 				var newTestRowHtml = template(context);
 				$(newTestRowHtml).appendTo('#scan-test-container').fadeIn('slow');
 				
-				if (test.status === <?= Test::STATUS_COMPLETED ?> && $('.scan-test-row active').length === 0) {
+				if (test.status === <?= Test::STATUS_COMPLETED ?> && $('.scan-test-row active').length === 0 && loadFirstTestPage === false) {
 					loadFirstTestPage = test.id;
 				}
 			} else {

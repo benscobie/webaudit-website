@@ -73,6 +73,7 @@ class ScansController extends AppController {
 						'contain' => ['Scans' => ['Websites'], 'TestData']
 					]);
 					$this->set('test', $test);
+					break;
 				}
 			}
 		}
