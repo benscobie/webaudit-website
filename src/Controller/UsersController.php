@@ -82,7 +82,7 @@ class UsersController extends AppController {
 			if ($this->Users->save($user)) {
 				$newUser = $this->Users->get($user['id']);
 				$this->Auth->setUser($newUser->toArray());
-				$this->Flash->success(__('Registration successfull.'));
+				$this->Flash->success(__('Registration successful.'));
 				return $this->redirect($this->Auth->redirectUrl());
 			}
 			$this->Flash->error(__('Error registering.'));
