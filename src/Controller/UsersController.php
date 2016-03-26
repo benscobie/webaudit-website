@@ -33,28 +33,33 @@ class UsersController extends AppController {
 		$user = $this->Users->get($this->Auth->user('id'));
 		if ($this->request->is('put')) {
 			$usersTable = TableRegistry::get('Users');
-
-			$verify = (new DefaultPasswordHasher)->check($this->request->data['current_password'], $user->password);
+			
+			$currentPassword = $this->request->data['current_password'];
+			$newPassword = $this->request->data['new_password'];
+			$newPasswordConfirm = $this->request->data['new_password_confirm'];
+			
+			unset($this->request->data['current_password']);
+			unset($this->request->data['new_password']);
+			unset($this->request->data['new_password_confirm']);
+				
+			$verify = (new DefaultPasswordHasher)->check($currentPassword, $user->password);
 			if ($verify) {
 				$passwordUpdate = false;
-
-				if (strlen($this->request->data['new_password']) > 0 && $this->request->data['new_password'] === $this->request->data['new_password_confirm']) {
-					$this->request->data['password'] = $this->request->data['new_password'];
+				if (strcmp($newPassword, $newPasswordConfirm) === 0) {
+					$this->request->data['password'] = $newPassword;
 					$passwordUpdate = true;
-				}
-
-				unset($this->request->data['current_password']);
-				unset($this->request->data['new_password']);
-				unset($this->request->data['new_password_confirm']);
-
-				$usersTable->patchEntity($user, $this->request->data);
-				if ($usersTable->save($user)) {
-					if ($passwordUpdate) {
-						$this->Flash->success('Profile and password updated');
-					} else {
-						$this->Flash->success('Profile updated');
+					
+					$usersTable->patchEntity($user, $this->request->data);
+					if ($usersTable->save($user)) {
+						if ($passwordUpdate) {
+							$this->Flash->success('Profile and password updated');
+						} else {
+							$this->Flash->success('Profile updated');
+						}
+						return $this->redirect($this->Auth->redirectUrl());
 					}
-					return $this->redirect($this->Auth->redirectUrl());
+				} else {
+					$this->Flash->error(__('New passwords do not match.'));
 				}
 			} else {
 				$this->Flash->error(__('Incorrect current password entered.'));
