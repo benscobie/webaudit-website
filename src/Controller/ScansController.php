@@ -6,7 +6,6 @@ use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\NotFoundException;
-use Cake\Network\Exception\UnauthorizedException;
 use \App\Model\Entity\Test;
 
 class ScansController extends AppController {
@@ -36,8 +35,7 @@ class ScansController extends AppController {
 			$website = $websitesTable->get($websiteID);
 			if (!empty($website)) {
 				if ($website->user_id != $this->Auth->user('id')) {
-					$this->Flash->error(__('Unauthorised.'));
-					return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
+					throw new NotFoundException();
 				}
 			}
 			
@@ -46,7 +44,8 @@ class ScansController extends AppController {
 			$query = $this->Scans->find('all')->where(['website_id' => $websiteID]);
 			$scans = $this->paginate($query);
 		} else {
-			$scans = $this->paginate($this->Scans);
+			$query = $this->Scans->find('all')->where(['user_id' => $this->Auth->user('id')]);
+			$scans = $this->paginate($query);
 		}
 
 		$this->set(compact('scans'));
@@ -60,8 +59,7 @@ class ScansController extends AppController {
 		]);
 		
 		if ($scan['website']['user_id'] != $this->Auth->user('id')) {
-			$this->Flash->error(__('Unauthorised.'));
-			return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
+			throw new NotFoundException();
 		}
 		
 		// Load single test to show
@@ -90,7 +88,7 @@ class ScansController extends AppController {
 			]);
 
 			if ($scan['website']['user_id'] != $this->Auth->user('id')) {
-				throw new UnauthorizedException(__('Unauthorised'));
+				throw new NotFoundException();
 			}
 			
 			unset($scan['website']);

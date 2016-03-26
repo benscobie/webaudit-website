@@ -6,6 +6,7 @@ use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Core\Configure;
+use Cake\Network\Exception\NotFoundException;
 
 class WebsitesController extends AppController {
 	
@@ -47,8 +48,7 @@ class WebsitesController extends AppController {
 		
 		if (!empty($website)) {
 			if ($website->user_id != $this->Auth->user('id')) {
-				$this->Flash->error(__('Unauthorised.'));
-				return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
+				throw new NotFoundException();
 			}
 			
 			if ($action == 'verify') {
@@ -77,8 +77,7 @@ class WebsitesController extends AppController {
 		if (!empty($website)) {
 			$enableVerify = Configure::read('WebAudit.EnableWebsiteVerification');
 			if ($website->user_id != $this->Auth->user('id')) {
-				$this->Flash->error(__('Unauthorised.'));
-				return $this->redirect(['controller' => 'Websites', 'action' => 'index']);
+				throw new NotFoundException();
 			} elseif ($enableVerify && $website->verifyOwnership() != true) {
 				$this->Flash->error(__('The website needs to be verified before a scan can be scheduled.'));
 				return $this->redirect(['controller' => 'Websites', 'action' => 'verify', $website->id]);

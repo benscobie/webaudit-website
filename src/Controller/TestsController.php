@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Network\Exception\NotFoundException;
-use Cake\Network\Exception\UnauthorizedException;
 
 class TestsController extends AppController {
 	
@@ -24,7 +23,7 @@ class TestsController extends AppController {
 			]);
 
 			if ($test['scan']['website']['user_id'] != $this->Auth->user('id')) {
-				throw new UnauthorizedException(__('Unauthorised'));
+				throw new NotFoundException();
 			}
 			$this->set(compact('test'));
 			
