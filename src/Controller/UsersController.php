@@ -44,22 +44,24 @@ class UsersController extends AppController {
 				
 			$verify = (new DefaultPasswordHasher)->check($currentPassword, $user->password);
 			if ($verify) {
-				$passwordUpdate = false;
-				if (strcmp($newPassword, $newPasswordConfirm) === 0) {
-					$this->request->data['password'] = $newPassword;
-					$passwordUpdate = true;
+				$passwordUpdate = (strlen($newPassword) > 0);
+				
+				if ($passwordUpdate && strcmp($newPassword, $newPasswordConfirm) !== 0) {
+					$this->Flash->error(__('New passwords do not match.'));
+				} else {
+					if ($passwordUpdate) {
+						$this->request->data['password'] = $newPassword;
+					}
 					
 					$usersTable->patchEntity($user, $this->request->data);
 					if ($usersTable->save($user)) {
 						if ($passwordUpdate) {
-							$this->Flash->success('Profile and password updated');
+							$this->Flash->success(__('Profile and password updated'));
 						} else {
-							$this->Flash->success('Profile updated');
+							$this->Flash->success(__('Profile updated'));
 						}
 						return $this->redirect($this->Auth->redirectUrl());
 					}
-				} else {
-					$this->Flash->error(__('New passwords do not match.'));
 				}
 			} else {
 				$this->Flash->error(__('Incorrect current password entered.'));
