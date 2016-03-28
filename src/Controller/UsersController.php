@@ -20,11 +20,7 @@ class UsersController extends AppController {
         parent::initialize();
         $this->loadComponent('Paginator');
     }
-
-	public function index() {
-		$this->set('users', $this->Users->find('all'));
-	}
-
+	
 	public function profile() {
 		if (!$this->Auth->user()) {
 			return $this->redirect(['controller' => 'Users', 'action' => 'login']);

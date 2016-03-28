@@ -111,8 +111,4 @@ class WebsitesController extends AppController {
 		}
 	}
 	
-	public function view($id) {
-		$website = $this->Websites->get($id);
-		$this->set(compact('website'));
-	}
 }
