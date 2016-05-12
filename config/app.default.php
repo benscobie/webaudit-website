@@ -328,6 +328,6 @@ return [
 	'WebAudit' => [
 		'CreditPrice' => 0.10,
 		'CreditCurrency' => 'GBP',
-		'EnableWebsiteVerificationCheck' => true
+		'EnableWebsiteVerification' => true
 	]
 ];
