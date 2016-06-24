@@ -94,12 +94,3 @@ CREATE TABLE `websites` (
 ENGINE=InnoDB;
 
 SET FOREIGN_KEY_CHECKS=1;
-
-INSERT INTO `users` (`id`, `email`, `password`, `first_name`, `last_name`, `credit_amount`, `role`, `created`) VALUES
-	(1, 'admin@benscobie.com', '$2y$10$F0LnW1sU9.EdbgnFhbpOUeQ0JV1FL7NmmgYrFiGS6JakgzdKQG1NW', NULL, NULL, 0, 0, '2015-10-17 15:12:35');
-
-INSERT INTO `websites` (`id`, `protocol`, `hostname`, `verified`, `verification_content`, `user_id`, `created`) VALUES
-	(1, 'https', 'www.benscobie.com', b'1', '916ee861dc0eca87a6f948a3266a72ae85f3cc23', 1, '2016-01-29 21:04:36');
-
-INSERT INTO `scans` (`id`, `website_id`, `status`, `created_date`, `started_date`, `finished_date`) VALUES
-	(1, 1, 0, '2016-01-29 21:05:21', NULL, NULL);
