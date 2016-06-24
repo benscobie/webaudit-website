@@ -1,26 +1,16 @@
-# CakePHP Application Skeleton
+# WebAudit
+WebAudit was a project created by myself as partial fulfilment of the requirements for an honours degree at Plymouth University. 
 
-[![Build Status](https://api.travis-ci.org/cakephp/app.png)](https://travis-ci.org/cakephp/app)
-[![License](https://poser.pugx.org/cakephp/app/license.svg)](https://packagist.org/packages/cakephp/app)
+The idea of Web Audit project was to identify security pitfalls of websites and to recommend solutions to the problems it found. It aimed to be as user friendly as possible and would be made so that those with little technical background could understand the solutions it proposed.
 
-A skeleton for creating applications with [CakePHP](http://cakephp.org) 3.x.
+The application was split into two components. The first component being a Python application that would do most of the scanning work. The second component is a PHP website that allows users to add websites, start scans and view scan reports.
 
-The framework source code can be found here: [cakephp/cakephp](https://github.com/cakephp/cakephp).
+# Website component
 
-## Installation
+This repository contains the website that was produced. It was built on the CakePHP framework as I had used it previously on other projects. As the website was not the main focus of the project it is not very feature rich, but it does the job.
 
-1. Download [Composer](http://getcomposer.org/doc/00-intro.md) or update `composer self-update`.
-2. Run `php composer.phar create-project --prefer-dist cakephp/app [app_name]`.
+Both components share the same MySQL database. The schema can be found here: https://github.com/benscobie/webaudit-website/blob/master/config/install.sql
 
-If Composer is installed globally, run
-```bash
-composer create-project --prefer-dist cakephp/app [app_name]
-```
+# Python component
 
-You should now be able to visit the path to where you installed the app and see
-the setup traffic lights.
-
-## Configuration
-
-Read and edit `config/app.php` and setup the 'Datasources' and any other
-configuration relevant for your application.
+The repository for the python component can be found here: https://github.com/benscobie/webaudit-py
